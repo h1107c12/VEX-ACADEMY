@@ -125,6 +125,32 @@ function HeroSection() {
               fetchPriority="high"
               decoding="async"
             />
+
+            <div className="hero__copy">
+              <p className="hero__headline">
+                The Next Generation of PUBG Champions
+              </p>
+
+              <div className="hero__actions">
+                <a
+                  href="https://vexesports.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hero__button hero__button--primary"
+                >
+                  Vex Esports
+                </a>
+
+                <a
+                  href="https://vexesports.com/contact"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hero__button hero__button--secondary"
+                >
+                  Contact Us
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
