@@ -15,12 +15,12 @@ export type RosterPlayer = {
 
 const rosterData: RosterPlayer[] = [
   {
-    id: 1,
-    image: lure,
-    alt: 'Lure academy roster poster',
-    name: 'LURE',
-    realName: '신경민',
-    position: 'Attacker',
+    id: 4,
+    image: roy,
+    alt: 'Roy academy roster poster',
+    name: 'ROY',
+    realName: '김민길',
+    position: 'Leader/Sub Order',
     streamLink: '',
   },
   {
@@ -33,6 +33,15 @@ const rosterData: RosterPlayer[] = [
     streamLink: '',
   },
   {
+    id: 1,
+    image: lure,
+    alt: 'Lure academy roster poster',
+    name: 'LURE',
+    realName: '신경민',
+    position: 'Attacker',
+    streamLink: '',
+  },
+  {
     id: 3,
     image: karwn,
     alt: 'Karwn academy roster poster',
@@ -40,16 +49,7 @@ const rosterData: RosterPlayer[] = [
     realName: '김도훈',
     position: 'Anchor/Backup',
     streamLink: '',
-  },
-  {
-    id: 4,
-    image: roy,
-    alt: 'Roy academy roster poster',
-    name: 'ROY',
-    realName: '김민길',
-    position: 'Leader/Sub Order',
-    streamLink: '',
-  },
+  }
 ]
 
 export default rosterData
