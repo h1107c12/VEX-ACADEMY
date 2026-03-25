@@ -125,7 +125,7 @@
 
 @media (max-width: 640px) {
   .header {
-    height: 84px;
+    height: 100px;
   }
 
   .header__inner {
