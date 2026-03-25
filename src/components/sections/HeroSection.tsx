@@ -25,10 +25,6 @@ function HeroSection() {
               Contact Us
             </a>
           </div>
-
-          <div className="hero__scroll">
-            <span />
-          </div>
         </div>
       </div>
     </section>
