@@ -53,13 +53,13 @@ function HeroSection() {
   const logoMotion = useMemo(
     () =>
       ({
-        '--logo-float-duration': `${5.6 + Math.random() * 2.2}s`,
-        '--logo-float-delay': `${1.55 + Math.random() * 0.35}s`,
-        '--logo-x': `${(Math.random() * 6 - 3).toFixed(2)}px`,
-        '--logo-y': `${(-7 - Math.random() * 5).toFixed(2)}px`,
-        '--logo-rotate': `${(Math.random() * 2.4 - 1.2).toFixed(2)}deg`,
-        '--logo-scale-mid': `${(1.008 + Math.random() * 0.02).toFixed(3)}`,
-        '--logo-scale-end': `${(0.998 + Math.random() * 0.014).toFixed(3)}`,
+        '--logo-float-duration': `${5.8 + Math.random() * 2.2}s`,
+        '--logo-float-delay': `${1.35 + Math.random() * 0.3}s`,
+        '--logo-x': `${(Math.random() * 5 - 2.5).toFixed(2)}px`,
+        '--logo-y': `${(-6 - Math.random() * 4).toFixed(2)}px`,
+        '--logo-rotate': `${(Math.random() * 1.8 - 0.9).toFixed(2)}deg`,
+        '--logo-scale-mid': `${(1.008 + Math.random() * 0.012).toFixed(3)}`,
+        '--logo-scale-end': `${(1.002 + Math.random() * 0.008).toFixed(3)}`,
       }) as CSSProperties,
     [],
   )
@@ -134,6 +134,10 @@ function HeroSection() {
               className="hero__logo"
               src="/logo-hero.png"
               alt="VEX Academy"
+              width={460}
+              height={460}
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
 
