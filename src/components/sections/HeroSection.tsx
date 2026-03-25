@@ -50,6 +50,19 @@ function HeroSection() {
     [],
   )
 
+  const logoMotion = useMemo(
+    () => ({
+      '--logo-float-duration': `${5.6 + Math.random() * 2.2}s`,
+      '--logo-float-delay': `${1.55 + Math.random() * 0.35}s`,
+      '--logo-x': `${(Math.random() * 6 - 3).toFixed(2)}px`,
+      '--logo-y': `${(-7 - Math.random() * 5).toFixed(2)}px`,
+      '--logo-rotate': `${(Math.random() * 2.4 - 1.2).toFixed(2)}deg`,
+      '--logo-scale-mid': `${(1.008 + Math.random() * 0.02).toFixed(3)}`,
+      '--logo-scale-end': `${(0.998 + Math.random() * 0.014).toFixed(3)}`,
+    }) as React.CSSProperties,
+    [],
+  )
+
   return (
     <section id="top" className="hero">
       <div className="hero__ambient hero__ambient--left" />
@@ -115,11 +128,13 @@ function HeroSection() {
 
       <div className="container hero__container">
         <div className="hero__content">
-          <img
-            className="hero__logo"
-            src="/logo-hero.png"
-            alt="VEX Academy"
-          />
+          <div className="hero__logo-wrap" style={logoMotion}>
+            <img
+              className="hero__logo"
+              src="/logo-hero.png"
+              alt="VEX Academy"
+            />
+          </div>
 
           <p className="hero__subtitle">The Next Generation of PUBG Champions</p>
 
