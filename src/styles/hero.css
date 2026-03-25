@@ -458,7 +458,7 @@
   }
 
   .hero__logo {
-    width: min(240px, 68vw);
+    width: min(340px, 78vw);
   }
 
   .hero__copy {
