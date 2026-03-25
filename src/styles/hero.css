@@ -155,15 +155,15 @@
 
 @keyframes randomLineFloat {
   0% {
-    translate: 0 0;
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    translate: 0 -10px;
+    transform: translate3d(0, -10px, 0);
   }
 
   100% {
-    translate: 0 8px;
+    transform: translate3d(0, 8px, 0);
   }
 }
 
@@ -195,11 +195,11 @@
 
 @keyframes shapeFloat {
   0% {
-    translate: 0 0;
+    transform: translate3d(0, 0, 0);
   }
 
   100% {
-    translate: 0 12px;
+    transform: translate3d(0, 12px, 0);
   }
 }
 
@@ -241,20 +241,12 @@
   justify-content: center;
   gap: 28px;
   text-align: center;
-  transform: translateY(0px);
 }
 
 .hero__logo-wrap {
   position: relative;
   z-index: 1;
   width: fit-content;
-  opacity: 0;
-  transform: translateY(34px) scale(0.93);
-  filter:
-    drop-shadow(0 0 0 rgba(74, 196, 255, 0))
-    drop-shadow(0 0 0 rgba(120, 100, 255, 0));
-  animation: heroLogoReveal 1.45s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
-  will-change: transform, opacity, filter;
 }
 
 .hero__logo-wrap::after {
@@ -284,19 +276,22 @@
   z-index: 1;
   display: block;
   width: min(460px, 62vw);
-  filter:
-    drop-shadow(0 0 30px rgba(74, 196, 255, 0.52))
-    drop-shadow(0 0 70px rgba(120, 100, 255, 0.4));
+  opacity: 0;
   transform-origin: 50% 50%;
-  will-change: transform;
-  animation: heroLogoBreathRandom var(--logo-float-duration, 6.6s)
-    ease-in-out var(--logo-float-delay, 1.7s) infinite;
+  will-change: transform, opacity, filter;
+  filter:
+    drop-shadow(0 0 0 rgba(74, 196, 255, 0))
+    drop-shadow(0 0 0 rgba(120, 100, 255, 0));
+  animation:
+    heroLogoReveal 1.35s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards,
+    heroLogoBreathRandom var(--logo-float-duration, 6.2s) ease-in-out
+      var(--logo-float-delay, 1.55s) infinite;
 }
 
 @keyframes heroLogoReveal {
   0% {
     opacity: 0;
-    transform: translateY(34px) scale(0.93);
+    transform: translate3d(0, 34px, 0) scale(0.9);
     filter:
       drop-shadow(0 0 0 rgba(74, 196, 255, 0))
       drop-shadow(0 0 0 rgba(120, 100, 255, 0));
@@ -304,15 +299,15 @@
 
   60% {
     opacity: 1;
-    transform: translateY(0) scale(1.02);
+    transform: translate3d(0, 0, 0) scale(1.03);
     filter:
-      drop-shadow(0 0 34px rgba(74, 196, 255, 0.56))
-      drop-shadow(0 0 74px rgba(120, 100, 255, 0.38));
+      drop-shadow(0 0 38px rgba(74, 196, 255, 0.58))
+      drop-shadow(0 0 78px rgba(120, 100, 255, 0.4));
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
     filter:
       drop-shadow(0 0 30px rgba(74, 196, 255, 0.52))
       drop-shadow(0 0 70px rgba(120, 100, 255, 0.4));
@@ -362,6 +357,8 @@
 }
 
 .hero__subtitle {
+  position: relative;
+  z-index: 1;
   font-family: 'Orbitron', sans-serif;
   font-size: clamp(18px, 2vw, 24px);
   line-height: 1.25;
@@ -370,6 +367,8 @@
 }
 
 .hero__actions {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -455,18 +454,9 @@
   .hero__star,
   .hero__random-line,
   .hero__shape,
-  .hero__logo-wrap,
   .hero__logo,
   .hero__logo-wrap::after {
     animation: none !important;
-  }
-
-  .hero__logo-wrap {
-    opacity: 1;
-    transform: none;
-    filter:
-      drop-shadow(0 0 30px rgba(74, 196, 255, 0.52))
-      drop-shadow(0 0 70px rgba(120, 100, 255, 0.4));
   }
 
   .hero__logo-wrap::after {
@@ -475,6 +465,10 @@
   }
 
   .hero__logo {
+    opacity: 1;
     transform: none;
+    filter:
+      drop-shadow(0 0 30px rgba(74, 196, 255, 0.52))
+      drop-shadow(0 0 70px rgba(120, 100, 255, 0.4));
   }
 }
