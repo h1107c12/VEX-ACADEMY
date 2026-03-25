@@ -12,7 +12,7 @@ function Header() {
     <header className="header">
       <div className="container header__inner">
         <a href="#top" className="header__logo" onClick={handleLogoClick}>
-          <img src="/src/assets/images/logo-small.png" alt="VEX Academy logo" />
+          <img src="/logo-small.png" alt="VEX Academy logo" />
         </a>
 
         <nav className="header__nav">

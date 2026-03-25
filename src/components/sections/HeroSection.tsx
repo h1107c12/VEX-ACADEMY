@@ -117,7 +117,7 @@ function HeroSection() {
         <div className="hero__content">
           <img
             className="hero__logo"
-            src="/src/assets/images/logo-hero.png"
+            src="/logo-hero.png"
             alt="VEX Academy"
           />
 
