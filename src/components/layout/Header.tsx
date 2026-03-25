@@ -1,36 +1,38 @@
+type NavItem = {
+  label: string
+  href: string
+}
+
+const navItems: NavItem[] = [
+  { label: 'ROSTER', href: '#roster' },
+  { label: 'ABOUT', href: '#about' },
+  { label: 'PROGRAM', href: '#program' },
+  { label: 'CURRICULUM', href: '#curriculum' },
+]
+
 function Header() {
-  const handleLogoClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
   return (
     <header className="header">
-      <div className="container header__inner">
-        <a href="#top" className="header__logo" onClick={handleLogoClick}>
-          <img src="/logo-small.png" alt="VEX Academy logo" />
+      <div className="header__inner">
+        <a href="#" className="header__logo" aria-label="VEX Academy home">
+          <img src="/vex-academy.png" alt="VEX Academy logo" />
         </a>
 
-        <nav className="header__nav">
-          <a href="#roster" className="header__link">
-            ROSTER
-          </a>
-          <a href="#about" className="header__link">
-            ABOUT
-          </a>
-          <a
-            href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
-            target="_blank"
-            rel="noreferrer"
-            className="header__cta"
-          >
-            수강신청
-          </a>
+        <nav className="header__nav" aria-label="Primary navigation">
+          <ul className="header__menu">
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <a href={item.href} className="header__link">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
+
+        <a href="#cta" className="header__cta">
+          수강신청
+        </a>
       </div>
     </header>
   )
