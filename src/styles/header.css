@@ -125,7 +125,7 @@
 
 @media (max-width: 640px) {
   .header {
-    height: 120px;
+    height: 118px;
   }
 
   .header__inner {
@@ -139,10 +139,10 @@
   }
 
   .header__logo {
-    width: 46px;
-    height: 46px;
+    width: 42px;
+    height: 65px;
     left: 0;
-    top: 0;
+    top: -4px;
   }
 
   .header__nav {
