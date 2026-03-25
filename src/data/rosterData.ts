@@ -47,7 +47,7 @@ const rosterData: RosterPlayer[] = [
     alt: 'Roy academy roster poster',
     name: 'ROY',
     realName: '김민길',
-    position: 'Sub Order',
+    position: 'Leader/Sub Order',
     streamLink: '',
   },
 ]
