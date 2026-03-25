@@ -128,10 +128,6 @@ function HeroSection() {
           </div>
         </div>
       </div>
-
-      <a href="#roster" className="hero__scroll" aria-label="Scroll to next section">
-        <span className="hero__scroll-arrow">∨</span>
-      </a>
     </section>
   )
 }
