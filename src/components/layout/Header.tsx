@@ -30,7 +30,12 @@ function Header() {
           </ul>
         </nav>
 
-        <a href="#cta" className="header__cta">
+        <a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="header__cta"
+        >
           수강신청
         </a>
       </div>

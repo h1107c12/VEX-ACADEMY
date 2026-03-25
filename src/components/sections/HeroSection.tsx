@@ -164,6 +164,13 @@ function HeroSection() {
           </div>
         </div>
       </div>
+      <a
+        href="#program"
+        className="hero__scroll"
+        aria-label="Scroll to program"
+      >
+        <span className="hero__scroll-arrow">⌄</span>
+      </a>
     </section>
   )
 }

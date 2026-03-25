@@ -456,4 +456,42 @@
   .hero__shape {
     animation: none !important;
   }
+
+  /* =========================
+   Scroll Arrow (이식)
+========================= */
+
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
+  font-size: 43px;
+  color: rgba(190, 220, 255, 0.65);
+  z-index: 3;
+  animation: arrowFloat 1.8s infinite;
+  transition: opacity 0.3s ease;
+  text-decoration: none;
+}
+
+.hero__scroll:hover {
+  opacity: 1;
+}
+
+.hero__scroll-arrow {
+  display: inline-block;
+  font-weight: 300;
+}
+
+@keyframes arrowFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+    opacity: 1;
+  }
+}
 }
