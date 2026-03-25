@@ -1,0 +1,48 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px; /* 🔥 공홈처럼 얇게 */
+}
+
+.header__logo img {
+  width: 48px;
+}
+
+.header__nav {
+  display: flex;
+  align-items: center;
+  gap: 40px; /* 🔥 간격 넓게 */
+}
+
+/* 🔥 핵심 스타일 */
+.header__link {
+  font-size: 14px;
+  letter-spacing: 0.12em; /* 공홈 느낌 핵심 */
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  transition: 0.2s ease;
+}
+
+.header__link:hover {
+  color: #fff;
+}
+
+/* 버튼도 톤 맞춤 */
+.header__cta {
+  height: 34px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #15c5ff, #b14dff);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}

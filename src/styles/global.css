@@ -1,77 +1,123 @@
+:root {
+  --bg: #000000;
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.68);
+  --line: rgba(255, 255, 255, 0.08);
+  --blue: #3ea7ff;
+  --purple: #a94dff;
+  --card: rgba(8, 10, 17, 0.88);
+}
+
 body {
-  background: #000;
-  color: #fff;
-  overflow-x: hidden;
+  font-family: 'Orbitron', sans-serif;
+  background:
+    radial-gradient(circle at 28% 28%, rgba(0, 198, 255, 0.13), transparent 18%),
+    radial-gradient(circle at 72% 32%, rgba(166, 0, 255, 0.14), transparent 18%),
+    #000;
+  color: var(--text);
 }
 
 .app {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(0, 173, 239, 0.16), transparent 20%),
-    radial-gradient(circle at 70% 40%, rgba(147, 51, 234, 0.16), transparent 20%),
-    #000;
+  position: relative;
 }
 
 main {
-  width: 100%;
-}
-
-.section {
-  width: 100%;
-  padding: 120px 24px;
+  position: relative;
 }
 
 .container {
-  width: 100%;
-  max-width: 1200px;
+  width: min(1200px, calc(100% - 48px));
   margin: 0 auto;
 }
 
+.section {
+  position: relative;
+  padding: 120px 0;
+}
+
 .section-title {
-  font-size: 56px;
-  font-weight: 600;
-  line-height: 1.1;
   text-align: center;
-  color: #6ea2ff;
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 1.05;
+  font-weight: 500;
+  color: #6b8cff;
+  letter-spacing: 0.03em;
+  text-transform: none;
 }
 
 .section-desc {
-  margin-top: 16px;
+  margin-top: 18px;
   text-align: center;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--muted);
+  letter-spacing: 0.01em;
 }
 
+/* 공홈 느낌 버튼 */
 .gradient-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 150px;
-  height: 52px;
+  min-width: 132px;
+  height: 50px;
   padding: 0 24px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #16c6ff 0%, #b44cff 100%);
+  background: linear-gradient(90deg, #15c5ff 0%, #b14dff 100%);
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
+  letter-spacing: 0.05em;
+  box-shadow: 0 10px 30px rgba(100, 73, 255, 0.2);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.gradient-btn:hover {
+  transform: translateY(-2px);
 }
 
 .outline-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 150px;
-  height: 52px;
+  min-width: 132px;
+  height: 50px;
   padding: 0 24px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   background: transparent;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.outline-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .glass-card {
-  background: rgba(10, 10, 16, 0.9);
-  border: 1px solid rgba(98, 156, 255, 0.15);
+  background: linear-gradient(180deg, rgba(10, 12, 18, 0.9), rgba(7, 8, 13, 0.82));
+  border: 1px solid rgba(107, 140, 255, 0.14);
   border-radius: 24px;
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 20px 50px rgba(0, 0, 0, 0.28);
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: min(100% - 32px, 1200px);
+  }
+
+  .section {
+    padding: 90px 0;
+  }
+
+  .section-desc {
+    font-size: 15px;
+  }
 }

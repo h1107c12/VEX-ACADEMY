@@ -9,12 +9,14 @@ function App() {
   return (
     <div className="app">
       <Header />
+
       <main>
         <HeroSection />
         <RosterSection />
         <AboutSection />
         <CTASection />
       </main>
+
       <Footer />
     </div>
   )
