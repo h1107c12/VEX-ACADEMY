@@ -12,10 +12,10 @@ function App() {
       <Header />
       <main>
         <HeroSection />
-        <ProgramSection />
-        <CurriculumSection />
         <RosterSection />
         <AboutSection />
+        <ProgramSection />
+        <CurriculumSection />
         <CTASection />
       </main>
     </>
