@@ -127,13 +127,9 @@ function HeroSection() {
             />
 
             <div className="hero__copy">
-              <p className="hero__headline">
-                The Next Generation of PUBG Champions
-              </p>
-
               <div className="hero__actions">
                 <a
-                  href="https://vexesports.com"
+                  href="https://www.vexesports.kr/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hero__button hero__button--primary"
@@ -142,7 +138,7 @@ function HeroSection() {
                 </a>
 
                 <a
-                  href="https://vexesports.com/contact"
+                  href="https://mail.google.com/mail/u/0/?fs=1&to=vexesportskr@gmail.com&tf=cm"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hero__button hero__button--secondary"
