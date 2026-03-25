@@ -1,27 +1,28 @@
 import rosterData from '../../data/rosterData'
+import RosterCard from './RosterCard'
 
 function RosterSection() {
   return (
-    <section className="roster section" id="roster">
-      <div className="container">
-        <h2 className="section-title">Our Roster</h2>
-        <p className="section-desc">Meet the rising stars of Vex Academy</p>
+    <section id="roster" className="roster-section">
+      <div className="roster-section__inner">
+        <div className="roster-section__header">
+          <h2 className="roster-section__title">ROSTER</h2>
+          <p className="roster-section__desc">
+            Vex Esports의 정예 멤버들을 소개합니다
+          </p>
+        </div>
 
-        <div className="roster__grid">
+        <div className="roster-grid">
           {rosterData.map((player) => (
-            <article
-              className="roster__card glass-card"
+            <RosterCard
               key={player.id}
-              style={{ backgroundImage: `url(${player.image})` }}
-            >
-              <div className="roster__overlay" />
-
-              <div className="roster__cardContent">
-                <span className="roster__badge">{player.role}</span>
-                <h3 className="roster__name">{player.nickname}</h3>
-                <p className="roster__realName">{player.realName}</p>
-              </div>
-            </article>
+              image={player.image}
+              alt={player.alt}
+              name={player.name}
+              realName={player.realName}
+              position={player.position}
+              streamLink={player.streamLink}
+            />
           ))}
         </div>
       </div>

@@ -1,20 +1,23 @@
 :root {
-  --bg: #000000;
+  --bg: #02040a;
   --text: #ffffff;
   --muted: rgba(255, 255, 255, 0.68);
-  --line: rgba(255, 255, 255, 0.08);
+  --line: rgba(110, 160, 255, 0.14);
   --blue: #3ea7ff;
   --purple: #a94dff;
   --card: rgba(8, 10, 17, 0.88);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Orbitron', sans-serif;
-  background:
-    radial-gradient(circle at 28% 28%, rgba(0, 198, 255, 0.13), transparent 18%),
-    radial-gradient(circle at 72% 32%, rgba(166, 0, 255, 0.14), transparent 18%),
-    #000;
+  min-width: 320px;
+  background: #02040a;
   color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 }
 
 .app {
@@ -27,7 +30,7 @@ main {
 }
 
 .container {
-  width: min(1200px, calc(100% - 48px));
+  width: min(1280px, calc(100% - 48px));
   margin: 0 auto;
 }
 
@@ -38,24 +41,26 @@ main {
 
 .section-title {
   text-align: center;
+  font-family: 'Orbitron', sans-serif;
   font-size: clamp(42px, 5vw, 64px);
   line-height: 1.05;
   font-weight: 500;
-  color: #6b8cff;
-  letter-spacing: 0.03em;
-  text-transform: none;
+  letter-spacing: 0.01em;
+  background: linear-gradient(90deg, #5ad0ff 0%, #9f7cff 45%, #d4a6ff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 .section-desc {
   margin-top: 18px;
   text-align: center;
-  font-size: 16px;
-  line-height: 1.8;
-  color: var(--muted);
-  letter-spacing: 0.01em;
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.76);
 }
 
-/* 공홈 느낌 버튼 */
 .gradient-btn {
   display: inline-flex;
   align-items: center;
@@ -66,15 +71,19 @@ main {
   border-radius: 999px;
   background: linear-gradient(90deg, #15c5ff 0%, #b14dff 100%);
   color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
   box-shadow: 0 10px 30px rgba(100, 73, 255, 0.2);
-  transition: transform 0.25s ease, opacity 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .gradient-btn:hover {
   transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(100, 73, 255, 0.28);
 }
 
 .outline-btn {
@@ -86,17 +95,21 @@ main {
   padding: 0 24px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  background: transparent;
+  background: rgba(0, 0, 0, 0.28);
   color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .outline-btn:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(142, 182, 255, 0.6);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .glass-card {
@@ -110,7 +123,7 @@ main {
 
 @media (max-width: 768px) {
   .container {
-    width: min(100% - 32px, 1200px);
+    width: min(100% - 32px, 1280px);
   }
 
   .section {
@@ -118,6 +131,6 @@ main {
   }
 
   .section-desc {
-    font-size: 15px;
+    font-size: 16px;
   }
 }

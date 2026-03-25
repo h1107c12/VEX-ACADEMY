@@ -44,6 +44,16 @@
   color: rgba(255, 255, 255, 0.72);
 }
 
+.footer__social {
+  transition: all 0.25s ease;
+}
+
+.footer__social:hover {
+  border-color: rgba(120, 170, 255, 0.5);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(120, 170, 255, 0.25);
+}
+
 @media (max-width: 768px) {
   .footer__inner {
     grid-template-columns: 1fr;

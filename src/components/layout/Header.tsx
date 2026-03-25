@@ -2,13 +2,8 @@ function Header() {
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault()
 
-    const hero = document.getElementById('hero')
-    if (!hero) return
-
-    const y = hero.getBoundingClientRect().top + window.scrollY
-
     window.scrollTo({
-      top: y - 100, // 🔥 transform 값만큼 보정
+      top: 0,
       behavior: 'smooth',
     })
   }
@@ -16,8 +11,8 @@ function Header() {
   return (
     <header className="header">
       <div className="container header__inner">
-        <a href="#hero" className="header__logo" onClick={handleLogoClick}>
-          <img src="/src/assets/images/logo-small.png" alt="Vex Academy logo" />
+        <a href="#top" className="header__logo" onClick={handleLogoClick}>
+          <img src="/src/assets/images/logo-small.png" alt="VEX Academy logo" />
         </a>
 
         <nav className="header__nav">
@@ -28,7 +23,7 @@ function Header() {
             ABOUT
           </a>
           <a
-            href="https://forms.gle/"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
             target="_blank"
             rel="noreferrer"
             className="header__cta"

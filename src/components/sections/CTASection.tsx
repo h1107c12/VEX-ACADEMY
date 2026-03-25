@@ -7,7 +7,7 @@ function CTASection() {
           <p className="cta__desc">차세대 배틀그라운드 프로게이머로 성장할 기회</p>
 
           <a
-            href="https://forms.gle/"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
             target="_blank"
             rel="noreferrer"
             className="gradient-btn cta__button"

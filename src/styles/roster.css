@@ -1,74 +1,276 @@
-.roster {
-  overflow: hidden;
-}
-
-.roster__grid {
-  margin-top: 54px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-.roster__card {
+.roster-section {
   position: relative;
-  min-height: 420px;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-}
-
-.roster__overlay {
-  position: absolute;
-  inset: 0;
+  padding: 140px 24px 100px;
   background:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.58) 68%, rgba(0, 0, 0, 0.84) 100%);
+    radial-gradient(circle at top center, rgba(50, 82, 214, 0.14) 0%, rgba(2, 4, 10, 0) 34%),
+    linear-gradient(180deg, #02040a 0%, #030611 38%, #02040a 100%);
 }
 
-.roster__cardContent {
+.roster-section__inner {
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.roster-section__header {
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+.roster-section__title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(44px, 5vw, 72px);
+  font-weight: 500; 
+  letter-spacing: 0.03em; 
+  line-height: 1;
+  text-transform: uppercase;
+
+  background: linear-gradient(90deg, #7fb0ff 0%, #7c88ff 50%, #a86bff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow: 0 0 10px rgba(120, 140, 255, 0.15); 
+}
+
+.roster-section__desc {
+  margin-top: 14px;
+  font-size: 15px;
+  color: rgba(214, 223, 255, 0.72);
+}
+
+.roster-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(255px, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.roster-card {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.roster-card__poster {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(10, 14, 30, 0.9);
+  border: 1px solid rgba(95, 132, 255, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+    0 12px 32px rgba(0, 0, 0, 0.34);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.roster-card__poster:hover {
+  transform: translateY(-8px);
+  border-color: rgba(116, 198, 255, 0.4);
+  box-shadow:
+    0 0 18px rgba(83, 183, 255, 0.16),
+    0 0 36px rgba(94, 109, 255, 0.12),
+    0 18px 40px rgba(0, 0, 0, 0.42);
+}
+
+.roster-card__image {
+  width: 100%;
+  aspect-ratio: 3.4 / 4.9;
+  object-fit: cover;
+  display: block;
+}
+
+.roster-card__overlay {
   position: absolute;
-  left: 20px;
-  right: 20px;
-  bottom: 18px;
-  z-index: 2;
+  inset: auto 0 0 0;
+  height: 28%;
+  background: linear-gradient(
+    180deg,
+    rgba(4, 9, 26, 0) 0%,
+    rgba(6, 10, 24, 0.14) 26%,
+    rgba(4, 7, 18, 0.72) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
 }
 
-.roster__badge {
-  display: inline-flex;
+.roster-card__info {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 70px;
+  z-index: 2;
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.8),
+    0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.roster-card__name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roster-card__realname {
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+.roster-card__position {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.roster-card__divider {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 60px;
+  height: 1px;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(176, 210, 255, 0.42) 12%,
+    rgba(255, 255, 255, 0.82) 50%,
+    rgba(176, 210, 255, 0.42) 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow:
+    0 0 10px rgba(109, 188, 255, 0.16),
+    0 0 20px rgba(109, 188, 255, 0.08);
+  pointer-events: none;
+}
+
+.roster-card__stream {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  translate: -50% 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  z-index: 3;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 72px;
-  height: 28px;
-  padding: 0 12px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #14c4ff 0%, #b34cff 100%);
-  color: #fff;
-  font-size: 12px;
-  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(115, 131, 168, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 6px 18px rgba(0, 0, 0, 0.28);
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.roster__name {
-  font-size: 22px;
-  font-weight: 500;
-  margin-bottom: 6px;
+.roster-card__stream:hover {
+  color: #ffffff;
+  background: linear-gradient(135deg, #d28b00 0%, #f3a400 55%, #ffbe2f 100%);
+  border-color: rgba(255, 205, 94, 0.75);
+  box-shadow:
+    0 0 16px rgba(255, 176, 0, 0.28),
+    0 8px 22px rgba(0, 0, 0, 0.34);
 }
 
-.roster__realName {
-  font-size: 15px;
-  color: rgba(255, 255, 255, 0.68);
+.roster-card__stream-icon {
+  width: 18px;
+  height: 18px;
 }
 
 @media (max-width: 1100px) {
-  .roster__grid {
-    grid-template-columns: repeat(2, 1fr);
+  .roster-grid {
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
+    gap: 18px;
   }
 }
 
 @media (max-width: 640px) {
-  .roster__grid {
-    grid-template-columns: 1fr;
+  .roster-section {
+    padding: 92px 14px 56px;
   }
 
-  .roster__card {
-    min-height: 360px;
+  .roster-section__header {
+    margin-bottom: 28px;
+  }
+
+  .roster-section__title {
+    font-size: 34px;
+  }
+
+  .roster-section__desc {
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .roster-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .roster-card__poster {
+    border-radius: 12px;
+  }
+
+  .roster-card__poster:hover {
+    transform: none;
+    border-color: rgba(95, 132, 255, 0.18);
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset,
+      0 12px 32px rgba(0, 0, 0, 0.34);
+  }
+
+  .roster-card__image {
+    aspect-ratio: 3 / 4.55;
+  }
+
+  .roster-card__info {
+    left: 14px;
+    right: 14px;
+    bottom: 58px;
+  }
+
+  .roster-card__name {
+    font-size: 15px;
+  }
+
+  .roster-card__realname {
+    font-size: 12px;
+  }
+
+  .roster-card__position {
+    font-size: 11px;
+  }
+
+  .roster-card__divider {
+    left: 14px;
+    right: 14px;
+    bottom: 50px;
+  }
+
+  .roster-card__stream {
+    width: 32px;
+    height: 32px;
+    bottom: 10px;
+  }
+
+  .roster-card__stream-icon {
+    width: 15px;
+    height: 15px;
   }
 }
