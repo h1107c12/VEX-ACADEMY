@@ -46,7 +46,7 @@ const rosterData: RosterPlayer[] = [
     image: karwn,
     alt: 'Karwn academy roster poster',
     name: 'KARWN',
-    realName: '김도훈',
+    realName: '김도윤',
     position: 'Anchor/Backup',
     streamLink: '',
   }
