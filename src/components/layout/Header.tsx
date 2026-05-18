@@ -28,7 +28,7 @@ function Header() {
 
     const nextTapCount = tapCount + 1
 
-    if (nextTapCount >= 5) {
+    if (nextTapCount >= 10) {
       enableAdminMode()
       setTapCount(0)
       return
@@ -38,7 +38,7 @@ function Header() {
 
     window.setTimeout(() => {
       setTapCount(0)
-    }, 1800)
+    }, 3500)
   }
 
   useEffect(() => {
