@@ -129,11 +129,11 @@ function HeroSection() {
             <div className="hero__copy">
               <div className="hero__actions">
                 <a
-  href="https://www.vexesports.kr/"
-  className="hero__button hero__button--primary"
->
-  Vex Esports
-</a>
+                  href="https://www.vexesports.kr/"
+                  className="hero__button hero__button--primary"
+                >
+                  Vex Esports
+                </a>
 
                 <a
                   href="https://mail.google.com/mail/u/0/?fs=1&to=vexesportskr@gmail.com&tf=cm"
@@ -141,7 +141,7 @@ function HeroSection() {
                   rel="noopener noreferrer"
                   className="hero__button hero__button--secondary"
                 >
-                  Contact Us
+                  APPLY
                 </a>
               </div>
             </div>
