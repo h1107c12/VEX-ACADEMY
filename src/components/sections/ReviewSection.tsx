@@ -132,6 +132,20 @@ function ReviewSection() {
   }, [])
 
   useEffect(() => {
+    const syncAdminMode = () => {
+      setAdminMode(document.body.classList.contains("vex-admin-mode"))
+    }
+
+    syncAdminMode()
+
+    window.addEventListener("vex-admin-mode-change", syncAdminMode)
+
+    return () => {
+      window.removeEventListener("vex-admin-mode-change", syncAdminMode)
+    }
+  }, [])
+
+  useEffect(() => {
     const command = [
       "ArrowUp",
       "ArrowUp",
@@ -173,7 +187,7 @@ function ReviewSection() {
         <div className="review-title-box">
           <p className="review-label">STUDENT REVIEWS</p>
           <h2>수강생 리뷰</h2>
-          <p>Vex Academy 수강생들이 직접 남긴 후기입니다.</p>
+          <p>VEX Academy 수강생들이 직접 남긴 후기입니다.</p>
         </div>
 
         <form className="review-form" onSubmit={submitReview}>
