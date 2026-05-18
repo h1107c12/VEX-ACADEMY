@@ -40,6 +40,19 @@ function ReviewSection() {
       return
     }
 
+    let adminPassword = ""
+
+    if (adminMode) {
+      const inputPassword = prompt("관리자 비밀번호 입력")
+
+      if (!inputPassword) {
+        alert("관리자 비밀번호가 필요합니다")
+        return
+      }
+
+      adminPassword = inputPassword
+    }
+
     setLoading(true)
 
     const { data, error } = await supabase.functions.invoke("submit-review", {
@@ -47,6 +60,7 @@ function ReviewSection() {
         name: name.trim(),
         rating,
         content: content.trim(),
+        adminPassword,
       },
     })
 
@@ -81,9 +95,7 @@ function ReviewSection() {
       return
     }
 
-    setReviews((prev) =>
-      prev.filter((review) => review.id !== id)
-    )
+    setReviews((prev) => prev.filter((review) => review.id !== id))
   }
 
   useEffect(() => {
@@ -133,9 +145,7 @@ function ReviewSection() {
 
           <h2>수강생 리뷰</h2>
 
-          <p>
-            Vex Academy 수강생들이 직접 남긴 후기입니다.
-          </p>
+          <p>Vex Academy 수강생들이 직접 남긴 후기입니다.</p>
         </div>
 
         <form className="review-form" onSubmit={submitReview}>
@@ -178,9 +188,7 @@ function ReviewSection() {
                 {"☆".repeat(5 - review.rating)}
               </div>
 
-              <p className="review-content">
-                {review.content}
-              </p>
+              <p className="review-content">{review.content}</p>
 
               <div className="review-user">
                 <span>{review.name}</span>

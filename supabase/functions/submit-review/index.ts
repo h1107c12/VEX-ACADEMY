@@ -3,7 +3,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers":
+    "authorization, x-client-info, apikey, content-type",
 }
 
 async function sha256(text: string) {
@@ -21,13 +22,16 @@ serve(async (req) => {
   }
 
   try {
-    const { name, rating, content } = await req.json()
+    const { name, rating, content, adminPassword } = await req.json()
 
     if (!name || !content || !rating) {
-      return new Response(JSON.stringify({ error: "닉네임, 별점, 후기를 입력해줘" }), {
-        status: 400,
-        headers: corsHeaders,
-      })
+      return new Response(
+        JSON.stringify({ error: "닉네임, 별점, 후기를 입력해줘" }),
+        {
+          status: 400,
+          headers: corsHeaders,
+        }
+      )
     }
 
     const ip =
@@ -44,25 +48,32 @@ serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     )
 
-    const since = new Date()
-    since.setDate(since.getDate() - 21)
+    const isAdmin =
+      adminPassword === Deno.env.get("REVIEW_ADMIN_PASSWORD")
 
-    const { data: recentReview } = await supabase
-      .from("reviews")
-      .select("id")
-      .eq("ip_hash", ipHash)
-      .gte("created_at", since.toISOString())
-      .limit(1)
-      .maybeSingle()
+    if (!isAdmin) {
+      const since = new Date()
+      since.setDate(since.getDate() - 21)
 
-    if (recentReview) {
-      return new Response(
-        JSON.stringify({ error: "같은 IP에서는 3주에 한 번만 리뷰를 작성할 수 있어" }),
-        {
-          status: 429,
-          headers: corsHeaders,
-        }
-      )
+      const { data: recentReview } = await supabase
+        .from("reviews")
+        .select("id")
+        .eq("ip_hash", ipHash)
+        .gte("created_at", since.toISOString())
+        .limit(1)
+        .maybeSingle()
+
+      if (recentReview) {
+        return new Response(
+          JSON.stringify({
+            error: "같은 IP에서는 3주에 한 번만 리뷰를 작성할 수 있어",
+          }),
+          {
+            status: 429,
+            headers: corsHeaders,
+          }
+        )
+      }
     }
 
     const { data, error } = await supabase
