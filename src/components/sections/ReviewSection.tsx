@@ -66,10 +66,15 @@ function ReviewSection() {
 
     setLoading(false)
 
-    if (error || data?.error) {
-      alert(data?.error || "리뷰 등록 실패")
-      return
-    }
+    if (data?.error) {
+    alert(data.error)
+    return
+  }
+
+  if (error) {
+    alert("리뷰 등록 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.")
+    return
+  }
 
     setReviews((prev) => [data.review, ...prev])
 
