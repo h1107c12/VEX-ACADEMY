@@ -144,7 +144,9 @@
   transition: width 0.22s ease;
 }
 
-.header__link:hover::after {
+.header__link:hover::after,
+.header__link:focus-visible::after,
+.header__link:active::after {
   width: 100%;
 }
 
@@ -278,7 +280,8 @@
   }
 
   .header__link::after {
-    bottom: -5px;
+    bottom: -7px;
+    height: 1.5px;
   }
 
   .header__cta {
