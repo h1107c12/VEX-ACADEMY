@@ -4,7 +4,7 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
-  { label: 'ROSTER', href: '#roster' },
+  // { label: 'ROSTER', href: '#roster' },
   { label: 'ABOUT', href: '#about' },
   { label: 'PROGRAM', href: '#program' },
   { label: 'CURRICULUM', href: '#curriculum' },
