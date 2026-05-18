@@ -1,22 +1,45 @@
+import { useEffect, useState } from "react"
+
 type NavItem = {
   label: string
   href: string
 }
 
 const navItems: NavItem[] = [
-  // { label: 'ROSTER', href: '#roster' },
-  { label: 'ABOUT', href: '#about' },
-  { label: 'PROGRAM', href: '#program' },
-  { label: 'CURRICULUM', href: '#curriculum' },
+  { label: "ABOUT", href: "#about" },
+  { label: "PROGRAM", href: "#program" },
+  { label: "CURRICULUM", href: "#curriculum" },
   { label: "REVIEWS", href: "#reviews" },
 ]
 
 function Header() {
+  const [adminMode, setAdminMode] = useState(false)
+
+  useEffect(() => {
+    const checkAdminMode = () => {
+      setAdminMode(sessionStorage.getItem("vexAdminMode") === "true")
+    }
+
+    checkAdminMode()
+
+    window.addEventListener("vex-admin-mode-change", checkAdminMode)
+
+    return () => {
+      window.removeEventListener("vex-admin-mode-change", checkAdminMode)
+    }
+  }, [])
+
   return (
-    <header className="header">
+    <header className={`header ${adminMode ? "header--admin" : ""}`}>
       <div className="header__inner">
         <a href="#" className="header__logo" aria-label="VEX Academy home">
           <img src="/vex-academy.png" alt="VEX Academy logo" />
+
+          {adminMode && (
+            <span className="header__admin-badge">
+              ADMIN
+            </span>
+          )}
         </a>
 
         <nav className="header__nav" aria-label="Primary navigation">

@@ -151,6 +151,8 @@ function ReviewSection() {
 
         if (index === command.length) {
           setAdminMode(true)
+          sessionStorage.setItem("vexAdminMode", "true")
+          window.dispatchEvent(new Event("vex-admin-mode-change"))
           alert("관리자 모드 ON")
           index = 0
         }
