@@ -77,6 +77,22 @@ serve(async (req) => {
       String(adminPassword || "") ===
       Deno.env.get("REVIEW_ADMIN_PASSWORD")
 
+    const hasAdminPassword =
+      String(adminPassword || "").trim().length > 0
+
+    if (hasAdminPassword && !isAdmin) {
+      return new Response(
+        JSON.stringify({
+          ok: false,
+          error: "관리자 비밀번호가 올바르지 않습니다.",
+        }),
+        {
+          status: 200,
+          headers: corsHeaders,
+        }
+      )
+    }
+
     if (!isAdmin) {
       const since = new Date()
       since.setDate(since.getDate() - 21)
