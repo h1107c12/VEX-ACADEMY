@@ -8,6 +8,7 @@ const navItems: NavItem[] = [
   { label: 'ABOUT', href: '#about' },
   { label: 'PROGRAM', href: '#program' },
   { label: 'CURRICULUM', href: '#curriculum' },
+  { label: "REVIEWS", href: "#reviews" },
 ]
 
 function Header() {

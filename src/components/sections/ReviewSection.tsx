@@ -1,0 +1,131 @@
+import { useEffect, useState } from "react"
+import { supabase } from "../../lib/supabase"
+import "../../styles/review.css"
+
+type Review = {
+  id: number
+  name: string
+  rating: number
+  content: string
+  created_at: string
+}
+
+function ReviewSection() {
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [name, setName] = useState("")
+  const [rating, setRating] = useState(5)
+  const [content, setContent] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const getReviews = async () => {
+    const { data, error } = await supabase
+      .from("reviews")
+      .select("*")
+      .order("created_at", { ascending: false })
+
+    if (error) {
+      console.error(error)
+      return
+    }
+
+    setReviews(data || [])
+  }
+
+  const submitReview = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!name.trim() || !content.trim()) {
+      alert("닉네임이랑 후기를 입력해줘")
+      return
+    }
+
+    setLoading(true)
+
+    const { error } = await supabase.from("reviews").insert({
+      name: name.trim(),
+      rating,
+      content: content.trim(),
+    })
+
+    setLoading(false)
+
+    if (error) {
+      console.error(error)
+      alert("리뷰 등록 실패")
+      return
+    }
+
+    setName("")
+    setRating(5)
+    setContent("")
+    getReviews()
+  }
+
+  useEffect(() => {
+    getReviews()
+  }, [])
+
+  return (
+    <section className="review-section" id="reviews">
+      <div className="review-inner">
+        <div className="review-title-box">
+          <p className="review-label">STUDENT REVIEWS</p>
+          <h2>수강생 리뷰</h2>
+          <p>
+            Vex Academy 수강생들이 직접 남긴 후기입니다.
+          </p>
+        </div>
+
+        <form className="review-form" onSubmit={submitReview}>
+          <input
+            type="text"
+            placeholder="닉네임"
+            value={name}
+            maxLength={12}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <select
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+          >
+            <option value={5}>★★★★★ 5점</option>
+            <option value={4}>★★★★☆ 4점</option>
+            <option value={3}>★★★☆☆ 3점</option>
+            <option value={2}>★★☆☆☆ 2점</option>
+            <option value={1}>★☆☆☆☆ 1점</option>
+          </select>
+
+          <textarea
+            placeholder="후기 작성"
+            value={content}
+            maxLength={300}
+            onChange={(e) => setContent(e.target.value)}
+          />
+
+          <button type="submit" disabled={loading}>
+            {loading ? "등록 중..." : "리뷰 등록"}
+          </button>
+        </form>
+
+        <div className="review-grid">
+          {reviews.map((review) => (
+            <article className="review-card" key={review.id}>
+              <div className="review-stars">
+                {"★".repeat(review.rating)}
+                {"☆".repeat(5 - review.rating)}
+              </div>
+              <p className="review-content">{review.content}</p>
+              <div className="review-user">
+                <span>{review.name}</span>
+                <small>VEX Academy Student</small>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export default ReviewSection
