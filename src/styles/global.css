@@ -149,4 +149,18 @@ main {
   .section-desc {
     font-size: 16px;
   }
+
+  #about,
+#program,
+#curriculum {
+  scroll-margin-top: 140px;
+}
+
+@media (max-width: 640px) {
+  #about,
+  #program,
+  #curriculum {
+    scroll-margin-top: 135px;
+  }
+}
 }
