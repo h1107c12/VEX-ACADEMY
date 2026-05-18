@@ -2,14 +2,14 @@ import { useEffect, useState } from "react"
 
 type NavItem = {
   label: string
-  href: string
+  sectionId: string
 }
 
 const navItems: NavItem[] = [
-  { label: "REVIEWS", href: "#reviews" },
-  { label: "ABOUT", href: "#about" },
-  { label: "PROGRAM", href: "#program" },
-  { label: "CURRICULUM", href: "#curriculum" },
+  { label: "REVIEWS", sectionId: "reviews" },
+  { label: "ABOUT", sectionId: "about" },
+  { label: "PROGRAM", sectionId: "program" },
+  { label: "CURRICULUM", sectionId: "curriculum" },
 ]
 
 function Header() {
@@ -19,6 +19,21 @@ function Header() {
   const enableAdminMode = () => {
     document.body.classList.add("vex-admin-mode")
     window.dispatchEvent(new Event("vex-admin-mode-change"))
+  }
+
+  const scrollToSection = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    sectionId: string
+  ) => {
+    e.preventDefault()
+
+    const el = document.getElementById(sectionId)
+    if (!el) return
+
+    el.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
   }
 
   const handleLogoTap = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -64,7 +79,7 @@ function Header() {
     <header className={`header ${adminMode ? "header--admin" : ""}`}>
       <div className="header__inner">
         <a
-          href="#top"
+          href="/"
           className="header__logo"
           aria-label="VEX Academy home"
           onClick={handleLogoTap}
@@ -78,7 +93,11 @@ function Header() {
           <ul className="header__menu">
             {navItems.map((item) => (
               <li key={item.label}>
-                <a href={item.href} className="header__link">
+                <a
+                  href="/"
+                  className="header__link"
+                  onClick={(e) => scrollToSection(e, item.sectionId)}
+                >
                   {item.label}
                 </a>
               </li>
