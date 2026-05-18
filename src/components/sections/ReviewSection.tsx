@@ -76,23 +76,18 @@ function ReviewSection() {
         },
       })
 
-      if (data?.error) {
-        alert(data.error)
-        return
-      }
-
       if (error) {
         console.error(error)
         alert("리뷰 등록 중 문제가 발생했습니다.")
         return
       }
 
-      if (!data?.review) {
-        alert("리뷰 등록 응답을 확인할 수 없습니다.")
+      if (!data?.ok) {
+        alert(data?.error || "리뷰 등록에 실패했습니다.")
         return
       }
 
-      setReviews((prev) => [data.review, ...prev])
+      await getReviews()
 
       setName("")
       setRating(5)
@@ -124,7 +119,7 @@ function ReviewSection() {
       return
     }
 
-    setReviews((prev) => prev.filter((review) => review.id !== id))
+    await getReviews()
   }
 
   useEffect(() => {
