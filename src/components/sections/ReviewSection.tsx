@@ -36,7 +36,7 @@ function ReviewSection() {
     e.preventDefault()
 
     if (!name.trim() || !content.trim()) {
-      alert("닉네임이랑 후기를 입력해주세요")
+      alert("닉네임과 후기를 입력해주세요.")
       return
     }
 
@@ -46,7 +46,7 @@ function ReviewSection() {
       const inputPassword = prompt("관리자 비밀번호 입력")
 
       if (!inputPassword) {
-        alert("관리자 비밀번호가 필요합니다")
+        alert("관리자 인증이 필요합니다.")
         return
       }
 
@@ -55,32 +55,50 @@ function ReviewSection() {
 
     setLoading(true)
 
-    const { data, error } = await supabase.functions.invoke("submit-review", {
-      body: {
-        name: name.trim(),
-        rating,
-        content: content.trim(),
-        adminPassword,
-      },
-    })
+    try {
+      const { data, error } = await supabase.functions.invoke("submit-review", {
+        body: {
+          name: name.trim(),
+          rating,
+          content: content.trim(),
+          adminPassword,
+        },
+      })
 
-    setLoading(false)
+      if (data?.error) {
+        alert(data.error)
+        return
+      }
 
-    if (data?.error) {
-    alert(data.error)
-    return
-  }
+      if (error) {
+        console.error(error)
+        alert("리뷰 등록 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.")
+        return
+      }
 
-  if (error) {
-    alert("리뷰 등록 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.")
-    return
-  }
+      if (!data?.review) {
+        await getReviews()
+        alert("리뷰가 등록되었습니다.")
 
-    setReviews((prev) => [data.review, ...prev])
+        setName("")
+        setRating(5)
+        setContent("")
+        return
+      }
 
-    setName("")
-    setRating(5)
-    setContent("")
+      setReviews((prev) => [data.review, ...prev])
+
+      setName("")
+      setRating(5)
+      setContent("")
+
+      alert("리뷰가 등록되었습니다.")
+    } catch (err) {
+      console.error(err)
+      alert("리뷰 등록 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   const deleteReview = async (id: number) => {
@@ -150,7 +168,7 @@ function ReviewSection() {
 
           <h2>수강생 리뷰</h2>
 
-          <p>Vex Academy 수강생들이 직접 남긴 후기입니다.</p>
+          <p>VEX Academy 수강생들이 직접 남긴 후기입니다.</p>
         </div>
 
         <form className="review-form" onSubmit={submitReview}>
