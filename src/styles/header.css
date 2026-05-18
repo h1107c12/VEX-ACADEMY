@@ -19,6 +19,16 @@
     0 0 42px rgba(168, 85, 247, 0.16);
 }
 
+.header__apply {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: none;
+}
+
+.header__apply:hover {
+  color: #67ddff;
+  text-shadow: 0 0 10px rgba(103, 221, 255, 0.55);
+}
+
 .header__inner {
   width: 100%;
   max-width: 1280px;

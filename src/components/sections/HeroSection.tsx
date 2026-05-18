@@ -136,7 +136,7 @@ function HeroSection() {
                 </a>
 
                 <a
-                  href="https://mail.google.com/mail/u/0/?fs=1&to=vexesportskr@gmail.com&tf=cm"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hero__button hero__button--secondary"
