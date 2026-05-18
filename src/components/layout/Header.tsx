@@ -17,7 +17,7 @@ function Header() {
 
   useEffect(() => {
     const checkAdminMode = () => {
-      setAdminMode(sessionStorage.getItem("vexAdminMode") === "true")
+      setAdminMode(document.body.classList.contains("vex-admin-mode"))
     }
 
     checkAdminMode()
@@ -35,11 +35,7 @@ function Header() {
         <a href="#" className="header__logo" aria-label="VEX Academy home">
           <img src="/vex-academy.png" alt="VEX Academy logo" />
 
-          {adminMode && (
-            <span className="header__admin-badge">
-              ADMIN
-            </span>
-          )}
+          {adminMode && <span className="header__admin-badge">ADMIN</span>}
         </a>
 
         <nav className="header__nav" aria-label="Primary navigation">
