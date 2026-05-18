@@ -119,6 +119,25 @@
   color: rgba(255, 255, 255, 0.46);
 }
 
+.review-delete-btn {
+  margin-top: 18px;
+  width: 100%;
+  border: 1px solid rgba(255, 90, 120, 0.45);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: rgba(255, 45, 85, 0.12);
+  color: #ff7a9a;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.review-delete-btn:hover {
+  background: rgba(255, 45, 85, 0.22);
+  box-shadow: 0 0 18px rgba(255, 45, 85, 0.2);
+}
+
 @media (max-width: 768px) {
   .review-section {
     padding: 80px 16px;

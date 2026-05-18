@@ -16,6 +16,7 @@ function ReviewSection() {
   const [rating, setRating] = useState(5)
   const [content, setContent] = useState("")
   const [loading, setLoading] = useState(false)
+  const [adminMode, setAdminMode] = useState(false)
 
   const getReviews = async () => {
     const { data, error } = await supabase
@@ -35,34 +36,93 @@ function ReviewSection() {
     e.preventDefault()
 
     if (!name.trim() || !content.trim()) {
-      alert("닉네임이랑 후기를 입력해줘")
+      alert("닉네임이랑 후기를 입력해주세요")
       return
     }
 
     setLoading(true)
 
-    const { error } = await supabase.from("reviews").insert({
-      name: name.trim(),
-      rating,
-      content: content.trim(),
+    const { data, error } = await supabase.functions.invoke("submit-review", {
+      body: {
+        name: name.trim(),
+        rating,
+        content: content.trim(),
+      },
     })
 
     setLoading(false)
 
-    if (error) {
-      console.error(error)
-      alert("리뷰 등록 실패")
+    if (error || data?.error) {
+      alert(data?.error || "리뷰 등록 실패")
       return
     }
+
+    setReviews((prev) => [data.review, ...prev])
 
     setName("")
     setRating(5)
     setContent("")
-    getReviews()
+  }
+
+  const deleteReview = async (id: number) => {
+    const adminPassword = prompt("관리자 비밀번호 입력")
+
+    if (!adminPassword) return
+
+    const { data, error } = await supabase.functions.invoke("delete-review", {
+      body: {
+        id,
+        adminPassword,
+      },
+    })
+
+    if (error || data?.error) {
+      alert(data?.error || "삭제 실패")
+      return
+    }
+
+    setReviews((prev) =>
+      prev.filter((review) => review.id !== id)
+    )
   }
 
   useEffect(() => {
     getReviews()
+  }, [])
+
+  useEffect(() => {
+    const command = [
+      "ArrowUp",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowLeft",
+      "ArrowRight",
+    ]
+
+    let index = 0
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === command[index]) {
+        index++
+
+        if (index === command.length) {
+          setAdminMode(true)
+          alert("관리자 모드 ON")
+          index = 0
+        }
+      } else {
+        index = 0
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
   }, [])
 
   return (
@@ -70,7 +130,9 @@ function ReviewSection() {
       <div className="review-inner">
         <div className="review-title-box">
           <p className="review-label">STUDENT REVIEWS</p>
+
           <h2>수강생 리뷰</h2>
+
           <p>
             Vex Academy 수강생들이 직접 남긴 후기입니다.
           </p>
@@ -115,11 +177,25 @@ function ReviewSection() {
                 {"★".repeat(review.rating)}
                 {"☆".repeat(5 - review.rating)}
               </div>
-              <p className="review-content">{review.content}</p>
+
+              <p className="review-content">
+                {review.content}
+              </p>
+
               <div className="review-user">
                 <span>{review.name}</span>
                 <small>VEX Academy Student</small>
               </div>
+
+              {adminMode && (
+                <button
+                  type="button"
+                  className="review-delete-btn"
+                  onClick={() => deleteReview(review.id)}
+                >
+                  삭제
+                </button>
+              )}
             </article>
           ))}
         </div>
