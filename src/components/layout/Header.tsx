@@ -22,9 +22,14 @@ function Header() {
   }
 
   const handleLogoTap = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (window.innerWidth > 768) return
-
     e.preventDefault()
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+
+    if (window.innerWidth > 768) return
 
     const nextTapCount = tapCount + 1
 
@@ -59,7 +64,7 @@ function Header() {
     <header className={`header ${adminMode ? "header--admin" : ""}`}>
       <div className="header__inner">
         <a
-          href="#"
+          href="#top"
           className="header__logo"
           aria-label="VEX Academy home"
           onClick={handleLogoTap}
