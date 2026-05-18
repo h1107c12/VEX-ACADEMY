@@ -6,10 +6,10 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
+  { label: "REVIEWS", href: "#reviews" },
   { label: "ABOUT", href: "#about" },
   { label: "PROGRAM", href: "#program" },
   { label: "CURRICULUM", href: "#curriculum" },
-  { label: "REVIEWS", href: "#reviews" },
 ]
 
 function Header() {
