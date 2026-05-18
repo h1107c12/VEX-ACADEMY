@@ -69,7 +69,7 @@ serve(async (req) => {
             error: "리뷰는 동일 환경 기준 3주에 한 번만 작성할 수 있습니다",
           }),
           {
-            status: 429,
+            status: 200,
             headers: corsHeaders,
           }
         )
