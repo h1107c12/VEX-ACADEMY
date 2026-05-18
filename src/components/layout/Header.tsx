@@ -94,7 +94,7 @@ function Header() {
             {navItems.map((item) => (
               <li key={item.label}>
                 <a
-                  href="/"
+                  href={`#${item.sectionId}`}
                   className="header__link"
                   onClick={(e) => scrollToSection(e, item.sectionId)}
                 >
@@ -105,10 +105,9 @@ function Header() {
 
             <li>
               <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#apply"
                 className="header__link header__apply"
+                onClick={(e) => scrollToSection(e, "apply")}
               >
                 APPLY
               </a>
