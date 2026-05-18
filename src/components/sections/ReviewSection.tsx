@@ -76,30 +76,19 @@ function ReviewSection() {
         },
       })
 
-      if (error) {
-        console.error(error)
-
-        if (error.message) {
-          alert(error.message)
-        } else {
-          alert("리뷰 등록 중 문제가 발생했습니다.")
-        }
-
+      if (data?.error) {
+        alert(data.error)
         return
       }
 
-if (data?.error) {
-  alert(data.error)
-  return
-}
+      if (error) {
+        console.error(error)
+        alert("리뷰 등록 중 문제가 발생했습니다.")
+        return
+      }
 
       if (!data?.review) {
-        await getReviews()
-        alert("리뷰가 등록되었습니다.")
-
-        setName("")
-        setRating(5)
-        setContent("")
+        alert("리뷰 등록 응답을 확인할 수 없습니다.")
         return
       }
 
@@ -112,7 +101,7 @@ if (data?.error) {
       alert("리뷰가 등록되었습니다.")
     } catch (err) {
       console.error(err)
-      alert("리뷰 등록 중 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.")
+      alert("리뷰 등록 중 오류가 발생했습니다.")
     } finally {
       setLoading(false)
     }

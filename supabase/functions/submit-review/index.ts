@@ -64,16 +64,16 @@ serve(async (req) => {
         .maybeSingle()
 
       if (recentReview) {
-        return new Response(
-          JSON.stringify({
-            error: "리뷰는 동일 환경 기준 3주에 한 번만 작성할 수 있습니다",
-          }),
-          {
-            status: 200,
-            headers: corsHeaders,
-          }
-        )
-      }
+      return new Response(
+        JSON.stringify({
+          error: "리뷰는 동일 IP 기준 3주에 한 번만 작성할 수 있습니다.",
+        }),
+        {
+          status: 200,
+          headers: corsHeaders,
+        }
+      )
+    }
     }
 
     const { data, error } = await supabase
