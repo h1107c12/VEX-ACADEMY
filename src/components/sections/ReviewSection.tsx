@@ -67,23 +67,28 @@ function ReviewSection() {
     setLoading(true)
 
     try {
-      const { data, error } = await supabase.functions.invoke("submit-review", {
-        body: {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+      const response = await fetch(`${supabaseUrl}/functions/v1/submit-review`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+        },
+        body: JSON.stringify({
           name: name.trim(),
           rating,
           content: content.trim(),
           adminPassword,
-        },
+        }),
       })
 
-      if (error) {
-        console.error(error)
-        alert("리뷰 등록 중 문제가 발생했습니다.")
-        return
-      }
+      const result = await response.json()
 
-      if (!data?.ok) {
-        alert(data?.error || "리뷰 등록에 실패했습니다.")
+      if (!result.ok) {
+        alert(result.error || "리뷰 등록에 실패했습니다.")
         return
       }
 
