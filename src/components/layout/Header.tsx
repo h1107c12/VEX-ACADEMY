@@ -14,6 +14,32 @@ const navItems: NavItem[] = [
 
 function Header() {
   const [adminMode, setAdminMode] = useState(false)
+  const [tapCount, setTapCount] = useState(0)
+
+  const enableAdminMode = () => {
+    document.body.classList.add("vex-admin-mode")
+    window.dispatchEvent(new Event("vex-admin-mode-change"))
+  }
+
+  const handleLogoTap = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.innerWidth > 768) return
+
+    e.preventDefault()
+
+    const nextTapCount = tapCount + 1
+
+    if (nextTapCount >= 5) {
+      enableAdminMode()
+      setTapCount(0)
+      return
+    }
+
+    setTapCount(nextTapCount)
+
+    window.setTimeout(() => {
+      setTapCount(0)
+    }, 1800)
+  }
 
   useEffect(() => {
     const checkAdminMode = () => {
@@ -32,7 +58,12 @@ function Header() {
   return (
     <header className={`header ${adminMode ? "header--admin" : ""}`}>
       <div className="header__inner">
-        <a href="#" className="header__logo" aria-label="VEX Academy home">
+        <a
+          href="#"
+          className="header__logo"
+          aria-label="VEX Academy home"
+          onClick={handleLogoTap}
+        >
           <img src="/vex-academy.png" alt="VEX Academy logo" />
 
           {adminMode && <span className="header__admin-badge">ADMIN</span>}
