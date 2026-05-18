@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { supabase } from "../../lib/supabase"
 import "../../styles/review.css"
 
@@ -17,6 +17,17 @@ function ReviewSection() {
   const [content, setContent] = useState("")
   const [loading, setLoading] = useState(false)
   const [adminMode, setAdminMode] = useState(false)
+  const ratingRef = useRef<HTMLDivElement | null>(null)
+
+  const getRatingFromPointer = (clientX: number) => {
+    if (!ratingRef.current) return
+
+    const rect = ratingRef.current.getBoundingClientRect()
+    const x = Math.min(Math.max(clientX - rect.left, 0), rect.width)
+    const nextRating = Math.ceil((x / rect.width) * 5)
+
+    setRating(Math.min(Math.max(nextRating, 1), 5))
+  }
 
   const getReviews = async () => {
     const { data, error } = await supabase
@@ -165,9 +176,7 @@ function ReviewSection() {
       <div className="review-inner">
         <div className="review-title-box">
           <p className="review-label">STUDENT REVIEWS</p>
-
           <h2>수강생 리뷰</h2>
-
           <p>VEX Academy 수강생들이 직접 남긴 후기입니다.</p>
         </div>
 
@@ -180,16 +189,37 @@ function ReviewSection() {
             onChange={(e) => setName(e.target.value)}
           />
 
-          <select
-            value={rating}
-            onChange={(e) => setRating(Number(e.target.value))}
-          >
-            <option value={5}>★★★★★ 5점</option>
-            <option value={4}>★★★★☆ 4점</option>
-            <option value={3}>★★★☆☆ 3점</option>
-            <option value={2}>★★☆☆☆ 2점</option>
-            <option value={1}>★☆☆☆☆ 1점</option>
-          </select>
+          <div className="rating-picker">
+            <span className="rating-label">별점</span>
+
+            <div
+              ref={ratingRef}
+              className="rating-stars"
+              aria-label="별점 선택"
+              onPointerDown={(e) => {
+                e.currentTarget.setPointerCapture(e.pointerId)
+                getRatingFromPointer(e.clientX)
+              }}
+              onPointerMove={(e) => {
+                if (e.buttons !== 1) return
+                getRatingFromPointer(e.clientX)
+              }}
+            >
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  className={`rating-star ${star <= rating ? "active" : ""}`}
+                  onClick={() => setRating(star)}
+                  aria-label={`${star}점`}
+                >
+                  ★
+                </button>
+              ))}
+            </div>
+
+            <span className="rating-score">{rating}점</span>
+          </div>
 
           <textarea
             placeholder="후기 작성"
@@ -206,7 +236,7 @@ function ReviewSection() {
         <div className="review-grid">
           {reviews.map((review) => (
             <article className="review-card" key={review.id}>
-              <div className="review-stars">
+              <div className="review-stars-display">
                 {"★".repeat(review.rating)}
                 {"☆".repeat(5 - review.rating)}
               </div>
