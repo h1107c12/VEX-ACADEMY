@@ -76,16 +76,22 @@ function ReviewSection() {
         },
       })
 
-      if (data?.error) {
-        alert(data.error)
+      if (error) {
+        console.error(error)
+
+        if (error.message) {
+          alert(error.message)
+        } else {
+          alert("리뷰 등록 중 문제가 발생했습니다.")
+        }
+
         return
       }
 
-      if (error) {
-        console.error(error)
-        alert("리뷰 등록 중 문제가 발생했습니다.\n잠시 후 다시 시도해주세요.")
-        return
-      }
+if (data?.error) {
+  alert(data.error)
+  return
+}
 
       if (!data?.review) {
         await getReviews()
