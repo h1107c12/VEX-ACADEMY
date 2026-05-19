@@ -1,0 +1,244 @@
+.instructors-section {
+  position: relative;
+  padding: 120px 0;
+  background:
+    radial-gradient(circle at top left, rgba(0, 180, 255, 0.16), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(132, 0, 255, 0.16), transparent 34%),
+    #03050a;
+  color: #fff;
+  overflow: hidden;
+}
+
+.instructors-section__inner {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.instructors-section__header {
+  margin-bottom: 44px;
+}
+
+.instructors-section__eyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: #6ee7ff;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+}
+
+.instructors-section__title {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 92px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.instructors-section__desc {
+  max-width: 560px;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.instructor-admin {
+  margin-bottom: 46px;
+  padding: 22px;
+  border: 1px solid rgba(110, 231, 255, 0.28);
+  background: rgba(255, 255, 255, 0.045);
+  backdrop-filter: blur(14px);
+}
+
+.instructor-admin__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.instructor-admin input,
+.instructor-admin textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  padding: 14px 15px;
+  outline: none;
+}
+
+.instructor-admin input::placeholder,
+.instructor-admin textarea::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.instructor-admin textarea {
+  grid-column: 1 / -1;
+  min-height: 110px;
+  resize: vertical;
+}
+
+.instructor-admin button {
+  margin-top: 14px;
+  border: 0;
+  background: linear-gradient(135deg, #00d5ff, #8b5cff);
+  color: #fff;
+  padding: 13px 22px;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.instructor-upload {
+  grid-column: 1 / -1;
+  min-height: 120px;
+  border: 1px dashed rgba(110, 231, 255, 0.42);
+  background: rgba(0, 213, 255, 0.06);
+  color: rgba(255, 255, 255, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.25s ease;
+  text-align: center;
+  padding: 18px;
+}
+
+.instructor-upload input {
+  display: none;
+}
+
+.instructor-upload.is-dragging {
+  border-color: #6ee7ff;
+  background: rgba(0, 213, 255, 0.14);
+  color: #fff;
+}
+
+.instructors-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.instructor-card {
+  position: relative;
+  min-height: 520px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.025)
+  );
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.instructor-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(0, 213, 255, 0.16), transparent 38%),
+    linear-gradient(315deg, rgba(139, 92, 255, 0.18), transparent 42%);
+  opacity: 0;
+  transition: 0.35s ease;
+  z-index: -1;
+}
+
+.instructor-card:hover::before {
+  opacity: 1;
+}
+
+.instructor-card__image {
+  height: 310px;
+  background:
+    linear-gradient(135deg, rgba(0, 213, 255, 0.18), rgba(139, 92, 255, 0.18)),
+    #080b12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.instructor-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.15) contrast(1.08);
+  transition: 0.35s ease;
+}
+
+.instructor-card:hover .instructor-card__image img {
+  transform: scale(1.05);
+}
+
+.instructor-card__image span {
+  font-size: 82px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.instructor-card__body {
+  padding: 24px;
+}
+
+.instructor-card__role {
+  color: #6ee7ff;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+}
+
+.instructor-card h3 {
+  margin: 10px 0 12px;
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.instructor-card__career {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.instructor-card__desc {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.instructor-card__delete {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  border: 0;
+  background: rgba(255, 52, 91, 0.9);
+  color: #fff;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .instructors-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .instructor-admin__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .instructors-section {
+    padding: 80px 0;
+  }
+
+  .instructors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .instructor-card {
+    min-height: auto;
+  }
+}

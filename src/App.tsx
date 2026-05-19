@@ -6,6 +6,7 @@ import CurriculumSection from './components/sections/CurriculumSection'
 import ReviewSection from "./components/sections/ReviewSection"
 import AboutSection from './components/sections/AboutSection'
 import CTASection from './components/sections/CTASection'
+import InstructorsSection from "./components/instructors/InstructorsSection"
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <ReviewSection />
         {/* <RosterSection /> */}
         <AboutSection />
+        <InstructorsSection />
         <ProgramSection />
         <CurriculumSection />
         <CTASection />

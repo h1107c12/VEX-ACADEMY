@@ -5,11 +5,14 @@ type NavItem = {
   sectionId: string
 }
 
+const ADMIN_PASSWORD = "vex2026"
+
 const navItems: NavItem[] = [
-  { label: "REVIEWS", sectionId: "reviews" },
   { label: "ABOUT", sectionId: "about" },
   { label: "PROGRAM", sectionId: "program" },
   { label: "CURRICULUM", sectionId: "curriculum" },
+  { label: "INSTRUCTORS", sectionId: "instructors" },
+  { label: "REVIEWS", sectionId: "reviews" },
 ]
 
 function Header() {
@@ -17,6 +20,16 @@ function Header() {
   const [tapCount, setTapCount] = useState(0)
 
   const enableAdminMode = () => {
+    if (document.body.classList.contains("vex-admin-mode")) return
+
+    const password = window.prompt("관리자 비밀번호 입력")
+    if (password === null) return
+
+    if (password !== ADMIN_PASSWORD) {
+      alert("비밀번호가 틀렸습니다.")
+      return
+    }
+
     document.body.classList.add("vex-admin-mode")
     window.dispatchEvent(new Event("vex-admin-mode-change"))
   }
@@ -60,6 +73,44 @@ function Header() {
       setTapCount(0)
     }, 3500)
   }
+
+  useEffect(() => {
+    const sequence = [
+      "ArrowUp",
+      "ArrowUp",
+      "ArrowDown",
+      "ArrowDown",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowLeft",
+      "ArrowRight",
+    ]
+
+    let index = 0
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (window.innerWidth <= 768) return
+
+      if (e.key === sequence[index]) {
+        index += 1
+
+        if (index >= sequence.length) {
+          enableAdminMode()
+          index = 0
+        }
+
+        return
+      }
+
+      index = 0
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [])
 
   useEffect(() => {
     const checkAdminMode = () => {

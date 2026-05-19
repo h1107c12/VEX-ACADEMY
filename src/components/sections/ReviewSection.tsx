@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { supabase } from "../../lib/supabase"
 import "../../styles/review.css"
 
+const ADMIN_PASSWORD = "vex2026"
+
 type Review = {
   id: number
   name: string
@@ -51,19 +53,6 @@ function ReviewSection() {
       return
     }
 
-    let adminPassword = ""
-
-    if (adminMode) {
-      const inputPassword = prompt("관리자 비밀번호 입력")
-
-      if (!inputPassword) {
-        alert("관리자 인증이 필요합니다.")
-        return
-      }
-
-      adminPassword = inputPassword
-    }
-
     setLoading(true)
 
     try {
@@ -81,7 +70,7 @@ function ReviewSection() {
           name: name.trim(),
           rating,
           content: content.trim(),
-          adminPassword,
+          adminPassword: adminMode ? ADMIN_PASSWORD : "",
         }),
       })
 
@@ -108,18 +97,20 @@ function ReviewSection() {
   }
 
   const deleteReview = async (id: number) => {
-    const adminPassword = prompt("관리자 비밀번호 입력")
+    if (!adminMode) return
 
-    if (!adminPassword) return
+    const ok = window.confirm("이 리뷰를 삭제하시겠습니까?")
+    if (!ok) return
 
     const { data, error } = await supabase.functions.invoke("delete-review", {
       body: {
         id,
-        adminPassword,
+        adminPassword: ADMIN_PASSWORD,
       },
     })
 
     if (error || data?.error) {
+      console.error(error || data?.error)
       alert(data?.error || "삭제 실패")
       return
     }
@@ -142,42 +133,6 @@ function ReviewSection() {
 
     return () => {
       window.removeEventListener("vex-admin-mode-change", syncAdminMode)
-    }
-  }, [])
-
-  useEffect(() => {
-    const command = [
-      "ArrowUp",
-      "ArrowUp",
-      "ArrowDown",
-      "ArrowDown",
-      "ArrowLeft",
-      "ArrowRight",
-      "ArrowLeft",
-      "ArrowRight",
-    ]
-
-    let index = 0
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === command[index]) {
-        index++
-
-        if (index === command.length) {
-          setAdminMode(true)
-          document.body.classList.add("vex-admin-mode")
-          window.dispatchEvent(new Event("vex-admin-mode-change"))
-          index = 0
-        }
-      } else {
-        index = 0
-      }
-    }
-
-    window.addEventListener("keydown", handleKeyDown)
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown)
     }
   }, [])
 
