@@ -214,7 +214,7 @@
 /* 모바일 */
 @media (max-width: 640px) {
   .header {
-    height: 136px;
+    height: 128px;
     backdrop-filter: blur(10px);
   }
 
@@ -230,7 +230,7 @@
     width: 42px;
     height: 42px;
     left: 0;
-    top: 0;
+    top: 10px;
     margin-bottom: 0;
   }
 
