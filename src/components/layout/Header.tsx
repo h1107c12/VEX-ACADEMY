@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 type NavItem = {
   label: string
@@ -18,6 +18,7 @@ const navItems: NavItem[] = [
 function Header() {
   const [adminMode, setAdminMode] = useState(false)
   const [tapCount, setTapCount] = useState(0)
+  const tapResetTimer = useRef<number | null>(null)
 
   const enableAdminMode = () => {
     if (document.body.classList.contains("vex-admin-mode")) return
@@ -59,18 +60,24 @@ function Header() {
 
     if (window.innerWidth > 768) return
 
+    if (tapResetTimer.current) {
+      window.clearTimeout(tapResetTimer.current)
+    }
+
     const nextTapCount = tapCount + 1
 
     if (nextTapCount >= 10) {
       enableAdminMode()
       setTapCount(0)
+      tapResetTimer.current = null
       return
     }
 
     setTapCount(nextTapCount)
 
-    window.setTimeout(() => {
+    tapResetTimer.current = window.setTimeout(() => {
       setTapCount(0)
+      tapResetTimer.current = null
     }, 3500)
   }
 
