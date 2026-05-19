@@ -25,6 +25,7 @@ export default function InstructorsSection() {
   const [instructors, setInstructors] = useState<Instructor[]>([])
   const [adminMode, setAdminMode] = useState(false)
   const [imageFile, setImageFile] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState("")
   const [isDragging, setIsDragging] = useState(false)
 
   const [form, setForm] = useState<InstructorForm>({
@@ -65,6 +66,14 @@ export default function InstructorsSection() {
     }
   }, [])
 
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview)
+      }
+    }
+  }, [imagePreview])
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -84,7 +93,12 @@ export default function InstructorsSection() {
       return
     }
 
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview)
+    }
+
     setImageFile(file)
+    setImagePreview(URL.createObjectURL(file))
   }
 
   const handleDragOver = (e: DragEvent<HTMLLabelElement>) => {
@@ -162,6 +176,7 @@ export default function InstructorsSection() {
     })
 
     setImageFile(null)
+    setImagePreview("")
     fetchInstructors()
   }
 
@@ -226,7 +241,7 @@ export default function InstructorsSection() {
               <label
                 className={`instructor-upload ${
                   isDragging ? "is-dragging" : ""
-                }`}
+                } ${imagePreview ? "has-preview" : ""}`}
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
@@ -237,11 +252,11 @@ export default function InstructorsSection() {
                   onChange={(e) => handleImageSelect(e.target.files?.[0])}
                 />
 
-                <span>
-                  {imageFile
-                    ? imageFile.name
-                    : "프로필 이미지 드래그 또는 클릭 업로드"}
-                </span>
+                {imagePreview ? (
+                  <img src={imagePreview} alt="프로필 이미지 미리보기" />
+                ) : (
+                  <span>프로필 이미지 드래그 또는 클릭 업로드</span>
+                )}
               </label>
 
               <textarea
