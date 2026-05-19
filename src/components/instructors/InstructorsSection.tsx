@@ -85,6 +85,15 @@ export default function InstructorsSection() {
     }))
   }
 
+  const handleAutoResize = (
+    e: ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    e.target.style.height = "auto"
+    e.target.style.height = `${e.target.scrollHeight}px`
+
+    handleChange(e)
+  }
+
   const handleImageSelect = (file: File | undefined) => {
     if (!file) return
 
@@ -230,12 +239,12 @@ export default function InstructorsSection() {
                 onChange={handleChange}
               />
 
-              <input
-                type="text"
+              <textarea
                 name="career"
                 placeholder="주요 경력"
                 value={form.career}
-                onChange={handleChange}
+                onChange={handleAutoResize}
+                className="instructor-career-input"
               />
 
               <label
@@ -263,7 +272,8 @@ export default function InstructorsSection() {
                 name="description"
                 placeholder="강사 소개"
                 value={form.description}
-                onChange={handleChange}
+                onChange={handleAutoResize}
+                className="instructor-description-input"
               />
             </div>
 

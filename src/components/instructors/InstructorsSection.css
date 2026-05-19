@@ -64,6 +64,9 @@
   padding: 14px 15px;
   outline: none;
   box-sizing: border-box;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .instructor-admin input::placeholder,
@@ -71,10 +74,20 @@
   color: rgba(255, 255, 255, 0.42);
 }
 
-.instructor-admin textarea {
+.instructor-career-input {
+  grid-column: 1 / -1;
+  min-height: 52px;
+  overflow-y: hidden;
+  resize: none;
+  white-space: pre-wrap;
+}
+
+.instructor-description-input {
   grid-column: 1 / -1;
   min-height: 110px;
-  resize: vertical;
+  overflow-y: hidden;
+  resize: none;
+  white-space: pre-wrap;
 }
 
 .instructor-admin button {
@@ -215,6 +228,8 @@
   color: rgba(255, 255, 255, 0.88);
   font-size: 14px;
   font-weight: 600;
+  white-space: pre-wrap;
+  line-height: 1.7;
 }
 
 .instructor-card__desc {
@@ -222,6 +237,7 @@
   color: rgba(255, 255, 255, 0.62);
   font-size: 14px;
   line-height: 1.7;
+  white-space: pre-wrap;
 }
 
 .instructor-card__delete {
