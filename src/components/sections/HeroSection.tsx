@@ -1,7 +1,41 @@
 import { useMemo } from 'react'
 
+type Star = {
+  id: string
+  left: string
+  top: string
+  size: string
+  delay: string
+  duration: string
+}
+
+type Line = {
+  id: string
+  left: string
+  top: string
+  width: string
+  rotate: string
+  delay: string
+  duration: string
+  opacity: number
+}
+
+type Shape = {
+  id: string
+  type: 'triangle' | 'diamond' | 'square'
+  left: string
+  top: string
+  size: string
+  rotate: string
+  delay: string
+  duration: string
+  opacity: number
+}
+
 function HeroSection() {
-  const stars = useMemo(
+  const MOU_ARTICLE_URL = '기사주소여기에'
+
+  const stars = useMemo<Star[]>(
     () =>
       Array.from({ length: 52 }, (_, index) => ({
         id: `star-${index}`,
@@ -14,7 +48,7 @@ function HeroSection() {
     [],
   )
 
-  const lines = useMemo(
+  const lines = useMemo<Line[]>(
     () =>
       Array.from({ length: 12 }, (_, index) => ({
         id: `line-${index}`,
@@ -29,10 +63,10 @@ function HeroSection() {
     [],
   )
 
-  const shapes = useMemo(
+  const shapes = useMemo<Shape[]>(
     () =>
       Array.from({ length: 10 }, (_, index) => {
-        const types = ['triangle', 'diamond', 'square']
+        const types = ['triangle', 'diamond', 'square'] as const
         const type = types[Math.floor(Math.random() * types.length)]
 
         return {
@@ -112,6 +146,21 @@ function HeroSection() {
 
       <div className="hero__frame hero__frame--top" />
       <div className="hero__frame hero__frame--bottom" />
+
+      <a
+        href={MOU_ARTICLE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hero__mou-banner"
+        aria-label="VEX와 호남대학교 MOU 체결 기사 보기"
+      >
+        <img
+          src="/honam-vex-mou.png"
+          alt="호남대학교 x VEX E-Sports MOU 체결"
+          className="hero__mou-image"
+        />
+        <span className="hero__mou-shine" />
+      </a>
 
       <div className="hero__container">
         <div className="hero__content">
