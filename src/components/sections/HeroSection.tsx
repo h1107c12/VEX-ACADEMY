@@ -33,7 +33,7 @@ type Shape = {
 }
 
 function HeroSection() {
-  const MOU_ARTICLE_URL = '기사주소여기에'
+  const MOU_ARTICLE_URL = 'http://www.newstoktok.com/article.php?aid=25033636030'
 
   const stars = useMemo<Star[]>(
     () =>
@@ -146,7 +146,7 @@ function HeroSection() {
 
       <div className="hero__frame hero__frame--top" />
       <div className="hero__frame hero__frame--bottom" />
-
+        
       <a
         href={MOU_ARTICLE_URL}
         target="_blank"
