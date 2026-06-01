@@ -224,7 +224,7 @@ function Header({ onNavigate }: HeaderProps) {
             className="header__apply-button"
             onClick={() => moveToSection("apply")}
           >
-            Apply
+            신청하기
           </button>
 
           <button

@@ -296,15 +296,25 @@
 }
 
 .header__apply-button {
-  height: 42px;
-  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 104px;
+  height: 56px;
+  padding: 0 17px;
+
   border-radius: 999px;
   background: linear-gradient(135deg, #38bdf8, #7c3aed);
+
   color: white;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 950;
+
   box-shadow: 0 16px 34px rgba(56, 189, 248, 0.2);
-  transition: transform 0.18s ease, filter 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    filter 0.18s ease;
 }
 
 .header__apply-button:hover {
