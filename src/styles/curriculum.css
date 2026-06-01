@@ -2,23 +2,12 @@
   position: relative;
   isolation: isolate;
   padding: 120px 0 130px;
-  background:
-    radial-gradient(circle at 15% 10%, rgba(57, 171, 255, 0.12), transparent 26%),
-    radial-gradient(circle at 85% 82%, rgba(157, 91, 255, 0.13), transparent 28%),
-    linear-gradient(180deg, #030711 0%, #040816 52%, #02050d 100%);
+  background: transparent;
   overflow: hidden;
 }
 
 .curriculum::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  pointer-events: none;
-  background:
-    linear-gradient(120deg, transparent 0 22%, rgba(86, 198, 255, 0.045) 22.2% 22.6%, transparent 22.8% 70%, rgba(171, 142, 255, 0.04) 70.2% 70.7%, transparent 71%),
-    repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 96px);
-  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 100%);
+  display: none;
 }
 
 .curriculum__container {

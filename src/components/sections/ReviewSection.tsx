@@ -198,7 +198,7 @@ function ReviewSection() {
           </button>
         </form>
 
-        <div className="review-grid">
+        <div className="review-grid" id="review-list">
           {reviews.map((review) => (
             <article className="review-card" key={review.id}>
               <div className="review-stars-display">

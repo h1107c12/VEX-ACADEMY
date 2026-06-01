@@ -2,14 +2,9 @@
   position: relative;
   padding: 120px 0;
   background:
-    radial-gradient(circle at top left,
-      rgba(0, 180, 255, 0.12),
-      transparent 34%),
-    radial-gradient(circle at bottom right,
-      rgba(132, 0, 255, 0.12),
-      transparent 34%),
+    radial-gradient(circle at top left, rgba(0, 180, 255, 0.12), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(132, 0, 255, 0.12), transparent 34%),
     #05070d;
-
   overflow: hidden;
 }
 
@@ -25,9 +20,7 @@
 .instructors-section__eyebrow {
   display: inline-block;
   margin-bottom: 14px;
-
   color: #6ee7ff;
-
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.22em;
@@ -35,9 +28,7 @@
 
 .instructors-section__title {
   margin: 0;
-
   color: #fff;
-
   font-size: clamp(42px, 7vw, 92px);
   line-height: 0.9;
   letter-spacing: -0.04em;
@@ -45,9 +36,7 @@
 
 .instructors-section__desc {
   margin-top: 20px;
-
   color: rgba(255, 255, 255, 0.6);
-
   font-size: 16px;
   line-height: 1.7;
 }
@@ -58,31 +47,21 @@
 
 .instructor-upload {
   position: relative;
-
   min-height: 240px;
-
-  border: 2px dashed
-    rgba(110, 231, 255, 0.32);
-
-  background:
-    rgba(255, 255, 255, 0.04);
-
+  border: 2px dashed rgba(110, 231, 255, 0.32);
+  background: rgba(255, 255, 255, 0.04);
   display: flex;
   align-items: center;
   justify-content: center;
-
   overflow: hidden;
-
   cursor: pointer;
-
   transition: 0.25s ease;
 }
 
 .instructor-upload:hover,
 .instructor-upload.is-dragging {
   border-color: #6ee7ff;
-  background:
-    rgba(0, 213, 255, 0.08);
+  background: rgba(0, 213, 255, 0.08);
 }
 
 .instructor-upload input {
@@ -91,7 +70,6 @@
 
 .instructor-upload span {
   color: rgba(255, 255, 255, 0.72);
-
   font-size: 18px;
   font-weight: 700;
   text-align: center;
@@ -109,88 +87,241 @@
   display: block;
 }
 
-.instructor-admin button {
-  margin-top: 18px;
-
-  border: 0;
-
-  background:
-    linear-gradient(
-      135deg,
-      #00d5ff,
-      #8b5cff
-    );
-
-  color: #fff;
-
-  height: 52px;
-  padding: 0 26px;
-
-  font-size: 15px;
-  font-weight: 800;
-
-  cursor: pointer;
+/* 관리자 입력창 */
+.instructor-admin__fields {
+  margin-top: 24px;
+  display: grid;
+  gap: 14px;
 }
 
+.instructor-admin__fields input,
+.instructor-admin__fields textarea {
+  width: 100%;
+  border: 1px solid rgba(110, 231, 255, 0.22);
+  background: rgba(255, 255, 255, 0.055);
+  color: #fff;
+  padding: 16px 18px;
+  font-size: 15px;
+  font-weight: 700;
+  outline: none;
+  border-radius: 14px;
+  box-sizing: border-box;
+}
+
+.instructor-admin__fields textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.instructor-admin__fields input::placeholder,
+.instructor-admin__fields textarea::placeholder {
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.instructor-admin__fields input:focus,
+.instructor-admin__fields textarea:focus {
+  border-color: rgba(110, 231, 255, 0.72);
+  background: rgba(0, 213, 255, 0.08);
+}
+
+.instructor-admin button {
+  margin-top: 18px;
+  border: 0;
+  background: linear-gradient(135deg, #00d5ff, #8b5cff);
+  color: #fff;
+  height: 52px;
+  padding: 0 26px;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+/* 프로필 카드 그리드 */
 .instructors-grid {
   display: grid;
-  grid-template-columns:
-    repeat(2, minmax(320px, 1fr));
-
+  grid-template-columns: repeat(auto-fit, minmax(320px, 420px));
+  justify-content: center;
   gap: 36px;
 }
 
 .instructor-card {
   position: relative;
+  width: 100%;
+  max-width: 420px;
+}
+
+.instructor-card__button {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  display: block;
+  text-align: left;
 }
 
 .instructor-card__full {
   width: 100%;
+  height: auto;
   display: block;
-
-  box-shadow:
-    0 24px 60px
-      rgba(0, 0, 0, 0.32);
-
+  object-fit: contain;
+  border-radius: 24px;
+  image-rendering: auto;
+  backface-visibility: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
   transition:
     transform 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
 }
 
-.instructor-card:hover
-  .instructor-card__full {
+.instructor-card:hover .instructor-card__full {
   transform: translateY(-6px);
-
-  box-shadow:
-    0 34px 80px
-      rgba(0, 0, 0, 0.42);
+  box-shadow: 0 34px 80px rgba(0, 0, 0, 0.42);
+  filter: brightness(1.08);
 }
 
 .instructor-card__delete {
   position: absolute;
   top: 16px;
   right: 16px;
-
   z-index: 5;
-
   border: 0;
-
-  background:
-    rgba(255, 52, 91, 0.92);
-
+  background: rgba(255, 52, 91, 0.92);
   color: #fff;
-
   padding: 10px 14px;
-
   font-size: 12px;
   font-weight: 800;
+  cursor: pointer;
+  border-radius: 999px;
+}
 
+/* 상세정보 모달 */
+.instructor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+.instructor-modal__panel {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  background:
+    radial-gradient(circle at top left, rgba(0, 213, 255, 0.16), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(139, 92, 255, 0.18), transparent 36%),
+    #080b14;
+  border: 1px solid rgba(110, 231, 255, 0.2);
+  border-radius: 32px;
+  padding: 30px;
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) 1fr;
+  gap: 34px;
+  align-items: center;
+  box-shadow: 0 40px 120px rgba(0, 0, 0, 0.55);
+}
+
+.instructor-modal__close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 900;
   cursor: pointer;
 }
 
+.instructor-modal__close:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.instructor-modal__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 24px;
+}
+
+.instructor-modal__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  padding-right: 18px;
+}
+
+.instructor-modal__content span {
+  color: #6ee7ff;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.instructor-modal__content h3 {
+  margin: 14px 0 18px;
+  font-size: clamp(34px, 5vw, 68px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.instructor-modal__content p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 16px;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+.instructor-modal__career {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 20px;
+  line-height: 1.9;
+}
+
+.instructor-modal__career strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 23px;
+  letter-spacing: 0.16em;
+}
+
+/* 반응형 */
 @media (max-width: 980px) {
   .instructors-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 420px));
+  }
+}
+
+@media (max-width: 780px) {
+  .instructor-modal {
+    padding: 18px;
+  }
+
+  .instructor-modal__panel {
     grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .instructor-modal__content {
+    padding-right: 0;
   }
 }
 
@@ -208,6 +339,15 @@
   }
 
   .instructors-grid {
+    grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  .instructor-card {
+    max-width: 100%;
+  }
+
+  .instructor-modal__content h3 {
+    font-size: 36px;
   }
 }
