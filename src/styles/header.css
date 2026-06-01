@@ -252,7 +252,6 @@
   gap: 9px;
 }
 
-.header__hub-button,
 .header__apply-button,
 .header__menu-button,
 .header__admin-pill,
@@ -294,24 +293,6 @@
   border-radius: 999px;
   background: #22c55e;
   box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.12), 0 0 14px rgba(34, 197, 94, 0.55);
-}
-
-.header__hub-button {
-  height: 42px;
-  padding: 0 16px;
-  border: 1px solid rgba(148, 163, 184, 0.16);
-  border-radius: 999px;
-  background: rgba(15, 23, 42, 0.62);
-  color: #cbd5e1;
-  font-size: 14px;
-  font-weight: 900;
-  transition: border-color 0.18s ease, color 0.18s ease, background 0.18s ease;
-}
-
-.header__hub-button:hover {
-  border-color: rgba(56, 189, 248, 0.4);
-  background: rgba(56, 189, 248, 0.09);
-  color: #fff;
 }
 
 .header__apply-button {

@@ -221,14 +221,6 @@ function Header({ onNavigate }: HeaderProps) {
 
           <button
             type="button"
-            className="header__hub-button"
-            onClick={() => moveToSection("hub")}
-          >
-            Hub
-          </button>
-
-          <button
-            type="button"
             className="header__apply-button"
             onClick={() => moveToSection("apply")}
           >
