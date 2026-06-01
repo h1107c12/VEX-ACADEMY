@@ -240,7 +240,7 @@ function HeroSection() {
                     rel="noopener noreferrer"
                     className="hero__button hero__button--secondary"
                   >
-                    APPLY
+                    신청하기
                   </a>
                 </div>
               </div>
