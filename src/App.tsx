@@ -7,6 +7,7 @@ import ReviewSection from "./components/sections/ReviewSection"
 import AboutSection from './components/sections/AboutSection'
 import CTASection from './components/sections/CTASection'
 import InstructorsSection from "./components/instructors/InstructorsSection"
+import AcademySection from "./components/sections/AcademySection"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <InstructorsSection />
         <ProgramSection />
         <CurriculumSection />
+        <AcademySection />
         <CTASection />
       </main>
     </>

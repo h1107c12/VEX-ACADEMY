@@ -22,6 +22,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 28px;
 }
 
 .hero__content {
@@ -177,11 +178,11 @@
 /* MOU 배너 */
 .hero__mou-banner {
   position: absolute;
-  top: 94px;
+  top: 86px;
   left: 50%;
   z-index: 8;
-  width: min(960px, calc(100vw - 140px));
-  height: 260px;
+  width: min(760px, calc(100vw - 180px));
+  height: 178px;
   transform: translateX(-50%);
   display: block;
   overflow: hidden;
@@ -257,13 +258,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateY(36px);
+  transform: translateY(0);
 }
 
 .hero__logo {
   position: relative;
   z-index: 1;
-  width: min(460px, 56vw);
+  width: min(430px, 48vw);
   height: auto;
   opacity: 0;
   transform: translateY(20px) scale(0.96);
@@ -464,12 +465,12 @@
 @media (max-width: 900px) {
   .hero__mou-banner {
     top: 86px;
-    width: calc(100vw - 44px);
-    height: 200px;
+    width: calc(100vw - 72px);
+    height: 168px;
   }
 
   .hero__logo-wrap {
-    transform: translateY(48px);
+    transform: translateY(8px);
   }
 
   .hero__logo {
@@ -499,9 +500,9 @@
   }
 
   .hero__mou-banner {
-    top: 138px;
-    width: calc(100vw - 28px);
-    height: 205px;
+    top: 132px;
+    width: calc(100vw - 32px);
+    height: 150px;
     border-radius: 14px;
   }
 
@@ -510,7 +511,7 @@
   }
 
   .hero__logo-wrap {
-    transform: translateY(56px);
+    transform: translateY(10px);
   }
 
   .hero__logo {
@@ -541,12 +542,12 @@
 /* 작은 모바일 */
 @media (max-width: 380px) {
   .hero__mou-banner {
-    top: 134px;
-    height: 194px;
+    top: 130px;
+    height: 138px;
   }
 
   .hero__logo-wrap {
-    transform: translateY(48px);
+    transform: translateY(8px);
   }
 
   .hero__button {
