@@ -1,14 +1,41 @@
 .program {
   position: relative;
-  padding: 150px 0 110px;
+  isolation: isolate;
+  padding: 145px 0 118px;
   background:
-    radial-gradient(circle at 20% 20%, rgba(28, 131, 255, 0.18), transparent 26%),
-    radial-gradient(circle at 80% 15%, rgba(139, 92, 246, 0.16), transparent 24%),
-    linear-gradient(180deg, #030711 0%, #040918 100%);
+    radial-gradient(circle at 78% 8%, rgba(139, 92, 246, 0.15), transparent 26%),
+    radial-gradient(circle at 22% 72%, rgba(28, 131, 255, 0.13), transparent 30%),
+    linear-gradient(180deg, #030711 0%, #040816 48%, #030711 100%);
   overflow: hidden;
 }
 
+.program::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(65deg, transparent 0 31%, rgba(86, 198, 255, 0.045) 31.2% 31.6%, transparent 31.8% 66%, rgba(178, 141, 255, 0.04) 66.2% 66.7%, transparent 67%),
+    radial-gradient(ellipse at 50% 0%, rgba(86, 198, 255, 0.08), transparent 55%);
+  mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.program::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(1180px, calc(100% - 48px));
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, rgba(86, 198, 255, 0.58), rgba(178, 141, 255, 0.58), transparent);
+  box-shadow: 0 0 28px rgba(139, 92, 246, 0.34);
+}
+
 .program__container {
+  position: relative;
+  z-index: 1;
   width: min(1200px, calc(100% - 48px));
   margin: 0 auto;
 }
@@ -37,6 +64,7 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 24px rgba(114, 196, 255, 0.14));
 }
 
 .program__subtitle {
@@ -63,14 +91,26 @@
   position: relative;
   padding: 36px;
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(11, 20, 46, 0.92), rgba(8, 14, 34, 0.86));
+  background: linear-gradient(180deg, rgba(11, 20, 46, 0.86), rgba(8, 14, 34, 0.76));
   border: 1px solid rgba(97, 167, 255, 0.18);
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.program__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(75, 200, 255, 0.09), transparent 46%, rgba(138, 92, 255, 0.1));
+  pointer-events: none;
 }
 
 .program__badge {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -83,6 +123,12 @@
   font-weight: 900;
   background: linear-gradient(90deg, #6da7ff 0%, #9a72ff 100%);
   box-shadow: 0 10px 24px rgba(90, 112, 255, 0.25);
+}
+
+.program__target,
+.program__points {
+  position: relative;
+  z-index: 1;
 }
 
 .program__target h4 {
@@ -107,6 +153,8 @@
 }
 
 .program__divider {
+  position: relative;
+  z-index: 1;
   height: 1px;
   margin: 28px 0;
   background: linear-gradient(90deg, transparent, rgba(109, 177, 255, 0.42), transparent);
@@ -145,7 +193,11 @@
 
 @media (max-width: 768px) {
   .program {
-    padding: 120px 0 90px;
+    padding: 110px 0 96px;
+  }
+
+  .program::after {
+    width: calc(100% - 24px);
   }
 
   .program__container {

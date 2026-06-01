@@ -1,13 +1,29 @@
 .curriculum {
   position: relative;
+  isolation: isolate;
   padding: 120px 0 130px;
   background:
-    radial-gradient(circle at 15% 10%, rgba(57, 171, 255, 0.12), transparent 24%),
-    radial-gradient(circle at 85% 80%, rgba(157, 91, 255, 0.12), transparent 24%),
-    linear-gradient(180deg, #02050d 0%, #040816 100%);
+    radial-gradient(circle at 15% 10%, rgba(57, 171, 255, 0.12), transparent 26%),
+    radial-gradient(circle at 85% 82%, rgba(157, 91, 255, 0.13), transparent 28%),
+    linear-gradient(180deg, #030711 0%, #040816 52%, #02050d 100%);
+  overflow: hidden;
+}
+
+.curriculum::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent 0 22%, rgba(86, 198, 255, 0.045) 22.2% 22.6%, transparent 22.8% 70%, rgba(171, 142, 255, 0.04) 70.2% 70.7%, transparent 71%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.018) 0 1px, transparent 1px 96px);
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 100%);
 }
 
 .curriculum__container {
+  position: relative;
+  z-index: 1;
   width: min(1200px, calc(100% - 48px));
   margin: 0 auto;
 }
@@ -35,6 +51,7 @@
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 24px rgba(110, 188, 255, 0.14));
 }
 
 .curriculum__description {
@@ -52,13 +69,31 @@
 }
 
 .curriculum__step {
+  position: relative;
   padding: 30px 26px;
   border-radius: 26px;
-  background: linear-gradient(180deg, rgba(10, 18, 42, 0.94), rgba(7, 13, 31, 0.9));
+  background: linear-gradient(180deg, rgba(10, 18, 42, 0.88), rgba(7, 13, 31, 0.78));
   border: 1px solid rgba(101, 170, 255, 0.16);
   box-shadow:
     0 18px 40px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.curriculum__step::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(73, 200, 255, 0.1), transparent 48%, rgba(161, 117, 255, 0.08));
+  pointer-events: none;
+}
+
+.curriculum__step-label,
+.curriculum__step h3,
+.curriculum__step p {
+  position: relative;
+  z-index: 1;
 }
 
 .curriculum__step-label {
@@ -83,12 +118,30 @@
 }
 
 .curriculum__why {
+  position: relative;
   padding: 36px;
   border-radius: 30px;
-  background:
-    linear-gradient(180deg, rgba(11, 20, 49, 0.95), rgba(7, 14, 32, 0.92)),
-    linear-gradient(90deg, rgba(61, 192, 255, 0.08), rgba(155, 92, 255, 0.08));
+  background: linear-gradient(180deg, rgba(11, 20, 49, 0.9), rgba(7, 14, 32, 0.8));
   border: 1px solid rgba(104, 175, 255, 0.18);
+  box-shadow:
+    0 22px 55px rgba(0, 0, 0, 0.36),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.curriculum__why::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(61, 192, 255, 0.1), transparent 50%, rgba(155, 92, 255, 0.1));
+  pointer-events: none;
+}
+
+.curriculum__why-badge,
+.curriculum__why-list {
+  position: relative;
+  z-index: 1;
 }
 
 .curriculum__why-badge {
@@ -123,9 +176,10 @@
   position: absolute;
   left: 0;
   top: 0;
-  color: #ff4f6d;
+  color: #56c6ff;
   font-weight: 900;
   font-size: 1.1rem;
+  text-shadow: 0 0 16px rgba(86, 198, 255, 0.65);
 }
 
 @media (max-width: 960px) {
