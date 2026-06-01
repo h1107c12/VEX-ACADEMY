@@ -236,8 +236,6 @@ function HeroSection() {
 
                   <a
                     href="https://www.vexesports.kr/"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="hero__button hero__button--secondary"
                   >
                     공홈으로 이동
