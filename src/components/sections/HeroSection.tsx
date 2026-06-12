@@ -62,7 +62,7 @@ const getTodayKey = () => {
   return now.toISOString().slice(0, 10)
 }
 
-const smoothScrollTo = (targetY: number, duration = 900) => {
+const smoothScrollTo = (targetY: number, duration = 850) => {
   if (scrollAnimationId !== null) {
     cancelAnimationFrame(scrollAnimationId)
   }
@@ -71,19 +71,17 @@ const smoothScrollTo = (targetY: number, duration = 900) => {
   const distance = targetY - startY
   const startTime = performance.now()
 
-  const easeInOutCubic = (t: number) => {
-    return t < 0.5
-      ? 4 * t * t * t
-      : 1 - Math.pow(-2 * t + 2, 3) / 2
+  const easeOutCubic = (t: number) => {
+    return 1 - Math.pow(1 - t, 3)
   }
 
   const animation = (currentTime: number) => {
     const elapsed = currentTime - startTime
     const progress = Math.min(elapsed / duration, 1)
-    const easedProgress = easeInOutCubic(progress)
+    const easedProgress = easeOutCubic(progress)
 
     window.scrollTo({
-      top: startY + distance * easedProgress,
+      top: Math.round(startY + distance * easedProgress),
       behavior: "auto",
     })
 
@@ -117,22 +115,27 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
   const scrollToReviews = () => {
     const reviewsSection = document.getElementById("reviews")
 
-    if (!reviewsSection) return
+    if (!reviewsSection) return false
 
+    const offset = window.innerWidth <= 640 ? 60 : 80
     const targetY =
-      reviewsSection.getBoundingClientRect().top + window.scrollY - 80
+      reviewsSection.getBoundingClientRect().top + window.scrollY - offset
 
-    smoothScrollTo(targetY, 900)
+    smoothScrollTo(targetY, window.innerWidth <= 640 ? 650 : 850)
+
+    return true
   }
 
   const handleOpenReviews = () => {
+    const alreadyExists = scrollToReviews()
+
+    if (alreadyExists) return
+
     onOpenReviews?.()
 
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        scrollToReviews()
-      })
-    })
+    setTimeout(() => {
+      scrollToReviews()
+    }, 80)
   }
 
   const [heroInstructors, setHeroInstructors] = useState<HeroInstructor[]>([])
@@ -175,7 +178,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
 
   const stars = useMemo<Star[]>(
     () =>
-      Array.from({ length: 52 }, (_, index) => ({
+      Array.from({ length: 30 }, (_, index) => ({
         id: `star-${index}`,
         left: `${Math.random() * 100}%`,
         top: `${Math.random() * 100}%`,
@@ -188,7 +191,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
 
   const lines = useMemo<Line[]>(
     () =>
-      Array.from({ length: 12 }, (_, index) => ({
+      Array.from({ length: 6 }, (_, index) => ({
         id: `line-${index}`,
         left: `${Math.random() * 100}%`,
         top: `${Math.random() * 86}%`,
@@ -203,7 +206,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
 
   const shapes = useMemo<Shape[]>(
     () =>
-      Array.from({ length: 10 }, (_, index) => {
+      Array.from({ length: 5 }, (_, index) => {
         const types = ["triangle", "diamond", "square"] as const
         const type = types[Math.floor(Math.random() * types.length)]
 
