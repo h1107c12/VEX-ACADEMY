@@ -55,12 +55,18 @@ type HeroSectionProps = {
 
 const MOU_HIDE_KEY = "vex-mou-banner-hidden-date"
 
+let scrollAnimationId: number | null = null
+
 const getTodayKey = () => {
   const now = new Date()
   return now.toISOString().slice(0, 10)
 }
 
 const smoothScrollTo = (targetY: number, duration = 900) => {
+  if (scrollAnimationId !== null) {
+    cancelAnimationFrame(scrollAnimationId)
+  }
+
   const startY = window.scrollY
   const distance = targetY - startY
   const startTime = performance.now()
@@ -76,14 +82,19 @@ const smoothScrollTo = (targetY: number, duration = 900) => {
     const progress = Math.min(elapsed / duration, 1)
     const easedProgress = easeInOutCubic(progress)
 
-    window.scrollTo(0, startY + distance * easedProgress)
+    window.scrollTo({
+      top: startY + distance * easedProgress,
+      behavior: "auto",
+    })
 
     if (progress < 1) {
-      requestAnimationFrame(animation)
+      scrollAnimationId = requestAnimationFrame(animation)
+    } else {
+      scrollAnimationId = null
     }
   }
 
-  requestAnimationFrame(animation)
+  scrollAnimationId = requestAnimationFrame(animation)
 }
 
 function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
@@ -103,18 +114,25 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
     setShowMouBanner(false)
   }
 
-  const handleOpenReviews = () => {
+  const scrollToReviews = () => {
     const reviewsSection = document.getElementById("reviews")
 
-    if (reviewsSection) {
-      const targetY =
-        reviewsSection.getBoundingClientRect().top + window.scrollY - 80
+    if (!reviewsSection) return
 
-      smoothScrollTo(targetY, 900)
-      return
-    }
+    const targetY =
+      reviewsSection.getBoundingClientRect().top + window.scrollY - 80
 
+    smoothScrollTo(targetY, 900)
+  }
+
+  const handleOpenReviews = () => {
     onOpenReviews?.()
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        scrollToReviews()
+      })
+    })
   }
 
   const [heroInstructors, setHeroInstructors] = useState<HeroInstructor[]>([])
@@ -338,6 +356,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
                       }}
                     >
                       <span className="hero__instructor-scan" />
+
                       <img
                         src={item.image_url || ""}
                         alt="VEX Academy 감독 코치 프로필 카드"
@@ -353,7 +372,10 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
             )}
 
             {heroReviews.length > 0 && (
-              <aside className="hero__reviews" aria-label="VEX Academy 수강생 리뷰">
+              <aside
+                className="hero__reviews"
+                aria-label="VEX Academy 수강생 리뷰"
+              >
                 <div className="hero__reviews-head">
                   <span>Student Voice</span>
                   <strong>REAL REVIEWS</strong>
@@ -364,7 +386,9 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
 
                   {heroReviews.map((review, index) => (
                     <article
-                      className={`hero__review-card hero__review-card--${index + 1}`}
+                      className={`hero__review-card hero__review-card--${
+                        index + 1
+                      }`}
                       key={review.id}
                     >
                       <div className="hero__review-top">
@@ -372,6 +396,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
                           {"★".repeat(review.rating)}
                           {"☆".repeat(5 - review.rating)}
                         </span>
+
                         <small>{review.rating}.0</small>
                       </div>
 
