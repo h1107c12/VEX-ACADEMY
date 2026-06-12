@@ -14,7 +14,52 @@ export type PageSection = "academy" | "people" | "hub" | "apply" | null
 type PeopleTarget = "instructors" | "review-list"
 
 const HEADER_OFFSET = 96
-const SCROLL_STABILIZE_TIME = 1800
+
+const waitForNextFrame = () => {
+  return new Promise<void>((resolve) => {
+    window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        resolve()
+      })
+    })
+  })
+}
+
+const waitForElement = async (targetId: string, maxFrame = 40) => {
+  for (let i = 0; i < maxFrame; i += 1) {
+    const target = document.getElementById(targetId)
+
+    if (target) return target
+
+    await new Promise<void>((resolve) => {
+      window.requestAnimationFrame(() => resolve())
+    })
+  }
+
+  return null
+}
+
+const waitForImages = async (selector: string, timeout = 700) => {
+  const images = Array.from(document.querySelectorAll<HTMLImageElement>(selector))
+
+  if (images.length === 0) return
+
+  const imagePromises = images.map((img) => {
+    if (img.complete) return Promise.resolve()
+
+    return new Promise<void>((resolve) => {
+      img.addEventListener("load", () => resolve(), { once: true })
+      img.addEventListener("error", () => resolve(), { once: true })
+    })
+  })
+
+  await Promise.race([
+    Promise.all(imagePromises),
+    new Promise<void>((resolve) => {
+      window.setTimeout(resolve, timeout)
+    }),
+  ])
+}
 
 function App() {
   const [activeSection, setActiveSection] = useState<PageSection>(null)
@@ -22,10 +67,17 @@ function App() {
 
   const pageRef = useRef<HTMLDivElement | null>(null)
   const pendingPeopleTargetRef = useRef<PeopleTarget | null>(null)
-  
-  // 사용자가 스크롤을 조작했는지 감지하고 제어하기 위한 ref들
-  const isUserInteractingRef = useRef(false)
-  const cancelScrollRef = useRef<(() => void) | null>(null)
+  const scrollAnimationRef = useRef<number | null>(null)
+  const isAutoScrollingRef = useRef(false)
+
+  const cancelAutoScroll = () => {
+    if (scrollAnimationRef.current !== null) {
+      window.cancelAnimationFrame(scrollAnimationRef.current)
+      scrollAnimationRef.current = null
+    }
+
+    isAutoScrollingRef.current = false
+  }
 
   const getTargetTop = (targetId: string) => {
     const target = document.getElementById(targetId)
@@ -37,31 +89,63 @@ function App() {
     )
   }
 
-  const scrollToTarget = (targetId: string, behavior: ScrollBehavior = "smooth") => {
-    // 사용자가 스크롤 중이면 강제 이동을 생략함
-    if (isUserInteractingRef.current) return false
+  const smoothScrollTo = (targetTop: number, duration = 820) => {
+    cancelAutoScroll()
 
+    const startTop = window.scrollY
+    const distance = targetTop - startTop
+    const startTime = performance.now()
+
+    if (Math.abs(distance) < 2) return
+
+    isAutoScrollingRef.current = true
+
+    const easeOutCubic = (t: number) => {
+      return 1 - Math.pow(1 - t, 3)
+    }
+
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime
+      const progress = Math.min(elapsed / duration, 1)
+      const easedProgress = easeOutCubic(progress)
+
+      window.scrollTo({
+        top: Math.round(startTop + distance * easedProgress),
+        behavior: "auto",
+      })
+
+      if (progress < 1) {
+        scrollAnimationRef.current = window.requestAnimationFrame(animate)
+      } else {
+        scrollAnimationRef.current = null
+        isAutoScrollingRef.current = false
+      }
+    }
+
+    scrollAnimationRef.current = window.requestAnimationFrame(animate)
+  }
+
+  const scrollToTarget = (targetId: string, duration?: number) => {
     const top = getTargetTop(targetId)
     if (top === null) return false
 
-    window.scrollTo({
-      top,
-      behavior,
-    })
+    const isMobile = window.innerWidth <= 640
+    smoothScrollTo(top, duration ?? (isMobile ? 620 : 850))
 
     return true
   }
 
-  const handleNavigate = (sectionId: PageSection) => {
+  const handleNavigate = async (sectionId: PageSection) => {
     pendingPeopleTargetRef.current = null
     setActiveSection(sectionId)
 
-    window.setTimeout(() => {
-      pageRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      })
-    }, 50)
+    await waitForNextFrame()
+
+    const top = pageRef.current
+      ? Math.max(pageRef.current.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET, 0)
+      : 0
+
+    smoothScrollTo(top, window.innerWidth <= 640 ? 620 : 850)
   }
 
   const openPeopleAndScrollTo = (targetId: PeopleTarget) => {
@@ -71,101 +155,56 @@ function App() {
   }
 
   useEffect(() => {
+    return () => {
+      cancelAutoScroll()
+    }
+  }, [])
+
+  useEffect(() => {
     if (activeSection !== "people") return
 
     const targetId = pendingPeopleTargetRef.current
     if (!targetId) return
 
-    let rafId = 0
-    let timeoutId = 0
-    let observer: ResizeObserver | null = null
     let cancelled = false
 
-    // 새로운 스크롤 작업이 시작되면 이전의 사용자 인터랙션 상태를 초기화
-    isUserInteractingRef.current = false
+    const stopByUser = () => {
+      if (!isAutoScrollingRef.current) return
 
-    const runScroll = (behavior: ScrollBehavior = "auto") => {
-      if (cancelled || isUserInteractingRef.current) return
-      scrollToTarget(targetId, behavior)
+      cancelled = true
+      pendingPeopleTargetRef.current = null
+      cancelAutoScroll()
     }
 
-    const startStabilizedScroll = () => {
-      const startedAt = performance.now()
+    const interactionEvents = ["wheel", "touchstart", "pointerdown", "keydown"]
 
-      const tick = () => {
-        runScroll("auto")
+    interactionEvents.forEach((eventName) => {
+      window.addEventListener(eventName, stopByUser, { passive: true })
+    })
 
-        if (performance.now() - startedAt < SCROLL_STABILIZE_TIME && !isUserInteractingRef.current) {
-          rafId = window.requestAnimationFrame(tick)
-        }
+    const run = async () => {
+      await waitForNextFrame()
+
+      const target = await waitForElement(targetId)
+      if (!target || cancelled) return
+
+      if (targetId === "review-list") {
+        await waitForImages("#instructors img", 700)
       }
 
-      tick()
+      if (cancelled) return
+
+      scrollToTarget(targetId)
+      pendingPeopleTargetRef.current = null
     }
 
-    // 사용자가 개입했을 때 모든 자동 스크롤을 멈추는 함수
-    const stopAutoScroll = () => {
-      isUserInteractingRef.current = true
-      cancelled = true
-      window.cancelAnimationFrame(rafId)
-      window.clearTimeout(timeoutId)
-      observer?.disconnect()
-    }
-    cancelScrollRef.current = stopAutoScroll
-
-    // 사용자의 직접적인 스크롤 조작 이벤트를 감지
-    const interactionEvents = ["wheel", "touchmove", "pointerdown", "keydown"]
-    interactionEvents.forEach((event) => {
-      window.addEventListener(event, stopAutoScroll, { passive: true })
-    })
-
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        runScroll("smooth")
-        startStabilizedScroll()
-
-        const pageContent = document.getElementById("page-content")
-        const instructors = document.getElementById("instructors")
-        const reviews = document.getElementById("reviews")
-
-        if ("ResizeObserver" in window) {
-          observer = new ResizeObserver(() => {
-            runScroll("auto")
-          })
-
-          if (pageContent) observer.observe(pageContent)
-          if (instructors) observer.observe(instructors)
-          if (reviews) observer.observe(reviews)
-        }
-
-        const instructorImages = Array.from(
-          document.querySelectorAll<HTMLImageElement>("#instructors img"),
-        )
-
-        const imageLoadPromises = instructorImages.map((img) => {
-          if (img.complete) return Promise.resolve()
-
-          return new Promise<void>((resolve) => {
-            img.addEventListener("load", () => resolve(), { once: true })
-            img.addEventListener("error", () => resolve(), { once: true })
-          })
-        })
-
-        Promise.all(imageLoadPromises).then(() => {
-          runScroll("smooth")
-        })
-
-        timeoutId = window.setTimeout(() => {
-          runScroll("smooth")
-          pendingPeopleTargetRef.current = null
-        }, SCROLL_STABILIZE_TIME + 250)
-      })
-    })
+    run()
 
     return () => {
-      stopAutoScroll()
-      interactionEvents.forEach((event) => {
-        window.removeEventListener(event, stopAutoScroll)
+      cancelled = true
+
+      interactionEvents.forEach((eventName) => {
+        window.removeEventListener(eventName, stopByUser)
       })
     }
   }, [activeSection, peopleScrollNonce])
