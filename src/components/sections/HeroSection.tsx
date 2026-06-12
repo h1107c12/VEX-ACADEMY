@@ -60,6 +60,32 @@ const getTodayKey = () => {
   return now.toISOString().slice(0, 10)
 }
 
+const smoothScrollTo = (targetY: number, duration = 900) => {
+  const startY = window.scrollY
+  const distance = targetY - startY
+  const startTime = performance.now()
+
+  const easeInOutCubic = (t: number) => {
+    return t < 0.5
+      ? 4 * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 3) / 2
+  }
+
+  const animation = (currentTime: number) => {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    const easedProgress = easeInOutCubic(progress)
+
+    window.scrollTo(0, startY + distance * easedProgress)
+
+    if (progress < 1) {
+      requestAnimationFrame(animation)
+    }
+  }
+
+  requestAnimationFrame(animation)
+}
+
 function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
   const MOU_ARTICLE_URL =
     "http://www.newstoktok.com/article.php?aid=25033636030"
@@ -75,6 +101,20 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
   const hideMouBannerToday = () => {
     localStorage.setItem(MOU_HIDE_KEY, getTodayKey())
     setShowMouBanner(false)
+  }
+
+  const handleOpenReviews = () => {
+    const reviewsSection = document.getElementById("reviews")
+
+    if (reviewsSection) {
+      const targetY =
+        reviewsSection.getBoundingClientRect().top + window.scrollY - 80
+
+      smoothScrollTo(targetY, 900)
+      return
+    }
+
+    onOpenReviews?.()
   }
 
   const [heroInstructors, setHeroInstructors] = useState<HeroInstructor[]>([])
@@ -312,7 +352,6 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
               </aside>
             )}
 
-
             {heroReviews.length > 0 && (
               <aside className="hero__reviews" aria-label="VEX Academy 수강생 리뷰">
                 <div className="hero__reviews-head">
@@ -348,7 +387,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
                   <button
                     type="button"
                     className="hero__reviews-more"
-                    onClick={onOpenReviews}
+                    onClick={handleOpenReviews}
                   >
                     리뷰 전체 보기
                   </button>

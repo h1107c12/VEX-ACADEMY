@@ -527,7 +527,6 @@ const handleDeleteStudent = async (studentName: string) => {
           <div className="academy-block-heading">
             <p>GROWTH REPORT</p>
             <h3>수강생 성장 리포트</h3>
-            <span>PUBG RP 기준 티어 변화를 성과 증명용으로 보여줍니다.</span>
           </div>
           <div className="tab-content">
             {adminMode && (
@@ -922,7 +921,6 @@ const handleDeleteStudent = async (studentName: string) => {
           <div className="academy-block-heading">
             <p>STUDENT HIGHLIGHT</p>
             <h3>수강생 하이라이트</h3>
-            <span>실제 플레이 영상은 카드형 콘텐츠로 따로 보여줍니다.</span>
           </div>
           <div className="tab-content">
             {adminMode && (
@@ -1015,7 +1013,6 @@ const handleDeleteStudent = async (studentName: string) => {
           <div className="academy-block-heading">
             <p>NOTICE & TOURNAMENT</p>
             <h3>대회 소식 및 공지</h3>
-            <span>중요 공지와 대회 일정을 별도 영역으로 분리합니다.</span>
           </div>
           <div className="tab-content">
             {adminMode && (
