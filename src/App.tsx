@@ -145,7 +145,13 @@ function App() {
 
       await waitForImages("#page-content img", 1200)
 
-      await waitForFrames(window.innerWidth <= 640 ? 8 : 3)
+      /*
+        핵심:
+        첫 클릭은 people 섹션이 새로 렌더링되면서
+        instructors/reviews 레이아웃 높이가 뒤늦게 잡힘.
+        그래서 PC도 모바일처럼 첫 클릭만 더 기다려야 함.
+      */
+      await waitForFrames(window.innerWidth <= 640 ? 8 : 10)
 
       if (cancelled) return
 
