@@ -601,7 +601,6 @@
   transform: translateY(-1px);
 }
 
-
 @keyframes mouOverlayIn {
   from {
     opacity: 0;
@@ -1138,10 +1137,7 @@
   font-weight: 700;
   line-height: 1.55;
   letter-spacing: -0.03em;
-
-  line-clamp: 2;
   -webkit-line-clamp: 2;
-
   -webkit-box-orient: vertical;
 }
 
@@ -1274,52 +1270,14 @@
   .hero__review-card--4 {
     display: none;
   }
+
+  .hero__review-card p {
+    font-size: 12px;
+    -webkit-line-clamp: 2;
+  }
+
   .hero__reviews-more {
     height: 38px;
     font-size: 11px;
-  }
-}
-
-/* ================= SCROLL / MOBILE PERFORMANCE FIX ================= */
-html {
-  scroll-behavior: auto;
-}
-
-@media (max-width: 640px) {
-  .hero__random-lines,
-  .hero__shapes {
-    display: none !important;
-  }
-
-  .hero__stars,
-  .hero__ambient,
-  .hero__aura,
-  .hero__logo,
-  .hero__copy,
-  .hero__instructors,
-  .hero__reviews,
-  .hero__star {
-    animation: none !important;
-  }
-
-  .hero__ambient,
-  .hero__aura,
-  .hero__reviews-glow {
-    filter: none !important;
-  }
-
-  .hero__star {
-    box-shadow: none !important;
-  }
-
-  .hero__reviews-panel {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  .hero__button,
-  .hero__review-card,
-  .hero__instructor-card {
-    transition: none !important;
   }
 }
