@@ -11,35 +11,36 @@ import AcademySection from "./components/sections/AcademySection"
 
 export type PageSection = "academy" | "people" | "hub" | "apply" | null
 
-type PeopleTarget = "instructors" | "review-list"
+type PeopleTarget = "instructors" | "reviews"
 
 const HEADER_OFFSET = 96
+const MOBILE_REVIEW_EXTRA_DOWN = 90
 
-const waitForNextFrame = () => {
+const waitForFrame = () => {
   return new Promise<void>((resolve) => {
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        resolve()
-      })
-    })
+    window.requestAnimationFrame(() => resolve())
   })
 }
 
-const waitForElement = async (targetId: string, maxFrame = 40) => {
+const waitForFrames = async (count: number) => {
+  for (let i = 0; i < count; i += 1) {
+    await waitForFrame()
+  }
+}
+
+const waitForElement = async (targetId: string, maxFrame = 80) => {
   for (let i = 0; i < maxFrame; i += 1) {
     const target = document.getElementById(targetId)
 
     if (target) return target
 
-    await new Promise<void>((resolve) => {
-      window.requestAnimationFrame(() => resolve())
-    })
+    await waitForFrame()
   }
 
   return null
 }
 
-const waitForImages = async (selector: string, timeout = 700) => {
+const waitForImages = async (selector: string, timeout = 1200) => {
   const images = Array.from(document.querySelectorAll<HTMLImageElement>(selector))
 
   if (images.length === 0) return
@@ -67,70 +68,34 @@ function App() {
 
   const pageRef = useRef<HTMLDivElement | null>(null)
   const pendingPeopleTargetRef = useRef<PeopleTarget | null>(null)
-  const scrollAnimationRef = useRef<number | null>(null)
-  const isAutoScrollingRef = useRef(false)
-
-  const cancelAutoScroll = () => {
-    if (scrollAnimationRef.current !== null) {
-      window.cancelAnimationFrame(scrollAnimationRef.current)
-      scrollAnimationRef.current = null
-    }
-
-    isAutoScrollingRef.current = false
-  }
 
   const getTargetTop = (targetId: string) => {
     const target = document.getElementById(targetId)
+
     if (!target) return null
 
+    const isMobile = window.innerWidth <= 640
+    const extraDown =
+      isMobile && targetId === "reviews" ? MOBILE_REVIEW_EXTRA_DOWN : 0
+
     return Math.max(
-      target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET,
+      target.getBoundingClientRect().top +
+        window.scrollY -
+        HEADER_OFFSET +
+        extraDown,
       0,
     )
   }
 
-  const smoothScrollTo = (targetTop: number, duration = 820) => {
-    cancelAutoScroll()
-
-    const startTop = window.scrollY
-    const distance = targetTop - startTop
-    const startTime = performance.now()
-
-    if (Math.abs(distance) < 2) return
-
-    isAutoScrollingRef.current = true
-
-    const easeOutCubic = (t: number) => {
-      return 1 - Math.pow(1 - t, 3)
-    }
-
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime
-      const progress = Math.min(elapsed / duration, 1)
-      const easedProgress = easeOutCubic(progress)
-
-      window.scrollTo({
-        top: Math.round(startTop + distance * easedProgress),
-        behavior: "auto",
-      })
-
-      if (progress < 1) {
-        scrollAnimationRef.current = window.requestAnimationFrame(animate)
-      } else {
-        scrollAnimationRef.current = null
-        isAutoScrollingRef.current = false
-      }
-    }
-
-    scrollAnimationRef.current = window.requestAnimationFrame(animate)
-  }
-
-  const scrollToTarget = (targetId: string, duration?: number) => {
+  const scrollToTarget = (targetId: string) => {
     const top = getTargetTop(targetId)
+
     if (top === null) return false
 
-    const isMobile = window.innerWidth <= 640
-    smoothScrollTo(top, duration ?? (isMobile ? 620 : 850))
+    window.scrollTo({
+      top,
+      behavior: "smooth",
+    })
 
     return true
   }
@@ -139,13 +104,21 @@ function App() {
     pendingPeopleTargetRef.current = null
     setActiveSection(sectionId)
 
-    await waitForNextFrame()
+    await waitForFrames(2)
 
     const top = pageRef.current
-      ? Math.max(pageRef.current.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET, 0)
+      ? Math.max(
+          pageRef.current.getBoundingClientRect().top +
+            window.scrollY -
+            HEADER_OFFSET,
+          0,
+        )
       : 0
 
-    smoothScrollTo(top, window.innerWidth <= 640 ? 620 : 850)
+    window.scrollTo({
+      top,
+      behavior: "smooth",
+    })
   }
 
   const openPeopleAndScrollTo = (targetId: PeopleTarget) => {
@@ -155,46 +128,29 @@ function App() {
   }
 
   useEffect(() => {
-    return () => {
-      cancelAutoScroll()
-    }
-  }, [])
-
-  useEffect(() => {
     if (activeSection !== "people") return
 
     const targetId = pendingPeopleTargetRef.current
+
     if (!targetId) return
 
     let cancelled = false
 
-    const stopByUser = () => {
-      if (!isAutoScrollingRef.current) return
-
-      cancelled = true
-      pendingPeopleTargetRef.current = null
-      cancelAutoScroll()
-    }
-
-    const interactionEvents = ["wheel", "touchstart", "pointerdown", "keydown"]
-
-    interactionEvents.forEach((eventName) => {
-      window.addEventListener(eventName, stopByUser, { passive: true })
-    })
-
     const run = async () => {
-      await waitForNextFrame()
+      await waitForFrames(3)
 
       const target = await waitForElement(targetId)
+
       if (!target || cancelled) return
 
-      if (targetId === "review-list") {
-        await waitForImages("#instructors img", 700)
-      }
+      await waitForImages("#page-content img", 1200)
+
+      await waitForFrames(window.innerWidth <= 640 ? 8 : 3)
 
       if (cancelled) return
 
       scrollToTarget(targetId)
+
       pendingPeopleTargetRef.current = null
     }
 
@@ -202,10 +158,6 @@ function App() {
 
     return () => {
       cancelled = true
-
-      interactionEvents.forEach((eventName) => {
-        window.removeEventListener(eventName, stopByUser)
-      })
     }
   }, [activeSection, peopleScrollNonce])
 
@@ -216,7 +168,7 @@ function App() {
       <main>
         <HeroSection
           onOpenPeople={() => openPeopleAndScrollTo("instructors")}
-          onOpenReviews={() => openPeopleAndScrollTo("review-list")}
+          onOpenReviews={() => openPeopleAndScrollTo("reviews")}
         />
 
         <div id="page-content" ref={pageRef}>
