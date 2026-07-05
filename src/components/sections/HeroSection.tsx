@@ -165,50 +165,6 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
   )
 
   return (
-    <>
-      {showMouBanner && (
-        <div className="mou-modal">
-          <div className="mou-modal__overlay" />
-
-          <div className="mou-modal__box">
-            <a
-              href={MOU_ARTICLE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mou-modal__banner"
-              aria-label="VEX와 호남대학교 MOU 체결 기사 보기"
-            >
-              <img
-                src="/honam-vex-mou.png"
-                alt="호남대학교 x VEX E-Sports MOU 체결"
-                className="mou-modal__image"
-              />
-
-              <span className="mou-modal__shade" />
-              <span className="mou-modal__shine" />
-
-              <div className="mou-modal__text">
-                <strong>
-                  호남대 e스포츠산업학과,
-                  <br />
-                  <em>㈜벡스이스포츠와 산학협력 협약 체결</em>
-                </strong>
-              </div>
-            </a>
-
-            <div className="mou-modal__actions">
-              <button type="button" onClick={hideMouBannerToday}>
-                오늘 하루 보지 않기
-              </button>
-
-              <button type="button" onClick={closeMouBanner}>
-                닫기
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       <section id="top" className="hero">
         <div className="hero__ambient hero__ambient--left" />
         <div className="hero__ambient hero__ambient--right" />
