@@ -53,30 +53,7 @@ type HeroSectionProps = {
   onOpenReviews?: () => void
 }
 
-const MOU_HIDE_KEY = "vex-mou-banner-hidden-date"
-
-const getTodayKey = () => {
-  const now = new Date()
-  return now.toISOString().slice(0, 10)
-}
-
 function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
-  const MOU_ARTICLE_URL =
-    "http://www.newstoktok.com/article.php?aid=25033636030"
-
-  const [showMouBanner, setShowMouBanner] = useState(() => {
-    return localStorage.getItem(MOU_HIDE_KEY) !== getTodayKey()
-  })
-
-  const closeMouBanner = () => {
-    setShowMouBanner(false)
-  }
-
-  const hideMouBannerToday = () => {
-    localStorage.setItem(MOU_HIDE_KEY, getTodayKey())
-    setShowMouBanner(false)
-  }
-
   const [heroInstructors, setHeroInstructors] = useState<HeroInstructor[]>([])
   const [heroReviews, setHeroReviews] = useState<HeroReview[]>([])
 
@@ -165,186 +142,184 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
   )
 
   return (
-      <section id="top" className="hero">
-        <div className="hero__ambient hero__ambient--left" />
-        <div className="hero__ambient hero__ambient--right" />
-        <div className="hero__aura" />
+    <section id="top" className="hero">
+      <div className="hero__ambient hero__ambient--left" />
+      <div className="hero__ambient hero__ambient--right" />
+      <div className="hero__aura" />
 
-        <div className="hero__stars">
-          {stars.map((star) => (
-            <span
-              key={star.id}
-              className="hero__star"
-              style={{
-                left: star.left,
-                top: star.top,
-                width: star.size,
-                height: star.size,
-                animationDelay: star.delay,
-                animationDuration: star.duration,
-              }}
-            />
-          ))}
-        </div>
+      <div className="hero__stars">
+        {stars.map((star) => (
+          <span
+            key={star.id}
+            className="hero__star"
+            style={{
+              left: star.left,
+              top: star.top,
+              width: star.size,
+              height: star.size,
+              animationDelay: star.delay,
+              animationDuration: star.duration,
+            }}
+          />
+        ))}
+      </div>
 
-        <div className="hero__random-lines">
-          {lines.map((line) => (
-            <span
-              key={line.id}
-              className="hero__random-line"
-              style={{
-                left: line.left,
-                top: line.top,
-                width: line.width,
-                transform: `rotate(${line.rotate})`,
-                animationDelay: line.delay,
-                animationDuration: line.duration,
-                opacity: line.opacity,
-              }}
-            />
-          ))}
-        </div>
+      <div className="hero__random-lines">
+        {lines.map((line) => (
+          <span
+            key={line.id}
+            className="hero__random-line"
+            style={{
+              left: line.left,
+              top: line.top,
+              width: line.width,
+              transform: `rotate(${line.rotate})`,
+              animationDelay: line.delay,
+              animationDuration: line.duration,
+              opacity: line.opacity,
+            }}
+          />
+        ))}
+      </div>
 
-        <div className="hero__shapes">
-          {shapes.map((shape) => (
-            <span
-              key={shape.id}
-              className={`hero__shape hero__shape--${shape.type}`}
-              style={{
-                left: shape.left,
-                top: shape.top,
-                width: shape.size,
-                height: shape.size,
-                transform: `rotate(${shape.rotate})`,
-                animationDelay: shape.delay,
-                animationDuration: shape.duration,
-                opacity: shape.opacity,
-              }}
-            />
-          ))}
-        </div>
+      <div className="hero__shapes">
+        {shapes.map((shape) => (
+          <span
+            key={shape.id}
+            className={`hero__shape hero__shape--${shape.type}`}
+            style={{
+              left: shape.left,
+              top: shape.top,
+              width: shape.size,
+              height: shape.size,
+              transform: `rotate(${shape.rotate})`,
+              animationDelay: shape.delay,
+              animationDuration: shape.duration,
+              opacity: shape.opacity,
+            }}
+          />
+        ))}
+      </div>
 
-        <div className="hero__frame hero__frame--top" />
-        <div className="hero__frame hero__frame--bottom" />
+      <div className="hero__frame hero__frame--top" />
+      <div className="hero__frame hero__frame--bottom" />
 
-        <div className="hero__container">
-          <div className="hero__content">
-            {heroInstructors.length > 0 && (
-              <aside
-                className="hero__instructors"
-                aria-label="VEX Academy 감독 코치진"
-              >
-                <div className="hero__instructors-label">
-                  <span>Director · Coach</span>
-                  <strong>ACADEMY TEAM</strong>
-                </div>
+      <div className="hero__container">
+        <div className="hero__content">
+          {heroInstructors.length > 0 && (
+            <aside
+              className="hero__instructors"
+              aria-label="VEX Academy 감독 코치진"
+            >
+              <div className="hero__instructors-label">
+                <span>Director · Coach</span>
+                <strong>ACADEMY TEAM</strong>
+              </div>
 
-                <div className="hero__instructors-stack">
-                  {heroInstructors.map((item, index) => (
-                    <a
-                      href="#instructors"
-                      className={`hero__instructor-card hero__instructor-card--${
-                        index + 1
-                      }`}
-                      key={item.id}
-                      aria-label="감독 코치진 프로필 섹션으로 이동"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        onOpenPeople?.()
-                      }}
-                    >
-                      <span className="hero__instructor-scan" />
-                      <img
-                        src={item.image_url || ""}
-                        alt="VEX Academy 감독 코치 프로필 카드"
-                        loading={index === 0 ? "eager" : "lazy"}
-                        decoding="async"
-                        fetchPriority={index === 0 ? "high" : "auto"}
-                        draggable={false}
-                      />
-                    </a>
-                  ))}
-                </div>
-              </aside>
-            )}
-
-
-            {heroReviews.length > 0 && (
-              <aside className="hero__reviews" aria-label="VEX Academy 수강생 리뷰">
-                <div className="hero__reviews-head">
-                  <span>Student Voice</span>
-                  <strong>REAL REVIEWS</strong>
-                </div>
-
-                <div className="hero__reviews-panel">
-                  <div className="hero__reviews-glow" />
-
-                  {heroReviews.map((review, index) => (
-                    <article
-                      className={`hero__review-card hero__review-card--${index + 1}`}
-                      key={review.id}
-                    >
-                      <div className="hero__review-top">
-                        <span className="hero__review-stars">
-                          {"★".repeat(review.rating)}
-                          {"☆".repeat(5 - review.rating)}
-                        </span>
-                        <small>{review.rating}.0</small>
-                      </div>
-
-                      <p>{review.content}</p>
-
-                      <div className="hero__review-user">
-                        <span>{review.name}</span>
-                        <small>VEX Student</small>
-                      </div>
-                    </article>
-                  ))}
-
-                  <button
-                    type="button"
-                    className="hero__reviews-more"
-                    onClick={onOpenReviews}
-                  >
-                    리뷰 전체 보기
-                  </button>
-                </div>
-              </aside>
-            )}
-
-            <div className="hero__logo-wrap">
-              <img
-                className="hero__logo"
-                src="/logo-hero.png"
-                alt="VEX Academy"
-                width={430}
-                height={430}
-                fetchPriority="high"
-                decoding="async"
-              />
-
-              <div className="hero__copy">
-                <div className="hero__actions">
+              <div className="hero__instructors-stack">
+                {heroInstructors.map((item, index) => (
                   <a
-                    href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
-                    className="hero__button hero__button--primary"
+                    href="#instructors"
+                    className={`hero__instructor-card hero__instructor-card--${
+                      index + 1
+                    }`}
+                    key={item.id}
+                    aria-label="감독 코치진 프로필 섹션으로 이동"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      onOpenPeople?.()
+                    }}
                   >
-                    신청하기
+                    <span className="hero__instructor-scan" />
+                    <img
+                      src={item.image_url || ""}
+                      alt="VEX Academy 감독 코치 프로필 카드"
+                      loading={index === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                      fetchPriority={index === 0 ? "high" : "auto"}
+                      draggable={false}
+                    />
                   </a>
+                ))}
+              </div>
+            </aside>
+          )}
 
-                  <a
-                    href="https://www.vexesports.kr/"
-                    className="hero__button hero__button--secondary"
+          {heroReviews.length > 0 && (
+            <aside className="hero__reviews" aria-label="VEX Academy 수강생 리뷰">
+              <div className="hero__reviews-head">
+                <span>Student Voice</span>
+                <strong>REAL REVIEWS</strong>
+              </div>
+
+              <div className="hero__reviews-panel">
+                <div className="hero__reviews-glow" />
+
+                {heroReviews.map((review, index) => (
+                  <article
+                    className={`hero__review-card hero__review-card--${index + 1}`}
+                    key={review.id}
                   >
-                    공홈으로 이동
-                  </a>
-                </div>
+                    <div className="hero__review-top">
+                      <span className="hero__review-stars">
+                        {"★".repeat(review.rating)}
+                        {"☆".repeat(5 - review.rating)}
+                      </span>
+                      <small>{review.rating}.0</small>
+                    </div>
+
+                    <p>{review.content}</p>
+
+                    <div className="hero__review-user">
+                      <span>{review.name}</span>
+                      <small>VEX Student</small>
+                    </div>
+                  </article>
+                ))}
+
+                <button
+                  type="button"
+                  className="hero__reviews-more"
+                  onClick={onOpenReviews}
+                >
+                  리뷰 전체 보기
+                </button>
+              </div>
+            </aside>
+          )}
+
+          <div className="hero__logo-wrap">
+            <img
+              className="hero__logo"
+              src="/logo-hero.png"
+              alt="VEX Academy"
+              width={430}
+              height={430}
+              fetchPriority="high"
+              decoding="async"
+            />
+
+            <div className="hero__copy">
+              <div className="hero__actions">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
+                  className="hero__button hero__button--primary"
+                >
+                  신청하기
+                </a>
+
+                <a
+                  href="https://www.vexesports.kr/"
+                  className="hero__button hero__button--secondary"
+                >
+                  공홈으로 이동
+                </a>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }
 
