@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import Header from "./components/layout/Header"
 import HeroSection from "./components/sections/HeroSection"
+import MOUSection from "./components/sections/MOUSection"
 import ProgramSection from "./components/sections/ProgramSection"
 import CurriculumSection from "./components/sections/CurriculumSection"
 import ReviewSection from "./components/sections/ReviewSection"
@@ -145,12 +146,6 @@ function App() {
 
       await waitForImages("#page-content img", 1200)
 
-      /*
-        핵심:
-        첫 클릭은 people 섹션이 새로 렌더링되면서
-        instructors/reviews 레이아웃 높이가 뒤늦게 잡힘.
-        그래서 PC도 모바일처럼 첫 클릭만 더 기다려야 함.
-      */
       await waitForFrames(window.innerWidth <= 640 ? 8 : 10)
 
       if (cancelled) return
@@ -176,6 +171,8 @@ function App() {
           onOpenPeople={() => openPeopleAndScrollTo("instructors")}
           onOpenReviews={() => openPeopleAndScrollTo("reviews")}
         />
+
+        {activeSection === null && <MOUSection />}
 
         <div id="page-content" ref={pageRef}>
           {activeSection === "academy" && (
