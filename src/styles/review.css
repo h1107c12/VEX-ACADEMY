@@ -251,3 +251,18 @@
     grid-template-columns: 1fr;
   }
 }
+.review-section--valorant {
+  background:
+    radial-gradient(circle at center, rgba(255, 70, 85, 0.19), transparent 42%),
+    linear-gradient(180deg, #0e0309 0%, #160713 100%);
+}
+
+.review-section--valorant .review-label,
+.review-section--valorant .review-stars-display,
+.review-section--valorant .rating-star.active {
+  color: #ff6673;
+}
+
+.review-section--valorant .review-form > button {
+  background: linear-gradient(90deg, #ff4655, #a93e69);
+}

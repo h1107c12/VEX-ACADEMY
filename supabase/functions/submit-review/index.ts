@@ -8,6 +8,11 @@ const corsHeaders = {
   "Content-Type": "application/json",
 }
 
+type GameType = "pubg" | "valorant"
+
+const isGameType = (value: unknown): value is GameType =>
+  value === "pubg" || value === "valorant"
+
 async function sha256(text: string) {
   const data = new TextEncoder().encode(text)
   const hashBuffer = await crypto.subtle.digest("SHA-256", data)
@@ -19,40 +24,30 @@ async function sha256(text: string) {
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(
-      JSON.stringify({
-        ok: true,
-      }),
-      {
-        status: 200,
-        headers: corsHeaders,
-      }
-    )
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: corsHeaders,
+    })
   }
 
   try {
-    const { name, rating, content, adminPassword } = await req.json()
+    const { name, rating, content, game, adminPassword } = await req.json()
 
-    const cleanName = String(name || "")
-      .trim()
-      .slice(0, 12)
-
-    const cleanContent = String(content || "")
-      .trim()
-      .slice(0, 300)
-
+    const cleanName = String(name || "").trim().slice(0, 12)
+    const cleanContent = String(content || "").trim().slice(0, 300)
     const cleanRating = Number(rating)
+    const cleanGame: GameType = isGameType(game) ? game : "pubg"
 
-    if (!cleanName || !cleanContent || !cleanRating) {
+    if (
+      !cleanName ||
+      !cleanContent ||
+      !Number.isInteger(cleanRating) ||
+      cleanRating < 1 ||
+      cleanRating > 5
+    ) {
       return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "닉네임과 후기를 입력해주세요.",
-        }),
-        {
-          status: 200,
-          headers: corsHeaders,
-        }
+        JSON.stringify({ ok: false, error: "닉네임, 별점과 후기를 확인해주세요." }),
+        { status: 200, headers: corsHeaders },
       )
     }
 
@@ -62,34 +57,22 @@ serve(async (req) => {
       "unknown"
 
     const userAgent = req.headers.get("user-agent") || "unknown"
-
-    const secret =
-      Deno.env.get("IP_HASH_SECRET") || "fallback-secret"
-
+    const secret = Deno.env.get("IP_HASH_SECRET") || "fallback-secret"
     const ipHash = await sha256(`${ip}-${secret}`)
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     )
 
     const isAdmin =
-      String(adminPassword || "") ===
-      Deno.env.get("REVIEW_ADMIN_PASSWORD")
-
-    const hasAdminPassword =
-      String(adminPassword || "").trim().length > 0
+      String(adminPassword || "") === Deno.env.get("REVIEW_ADMIN_PASSWORD")
+    const hasAdminPassword = String(adminPassword || "").trim().length > 0
 
     if (hasAdminPassword && !isAdmin) {
       return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "관리자 비밀번호가 올바르지 않습니다.",
-        }),
-        {
-          status: 200,
-          headers: corsHeaders,
-        }
+        JSON.stringify({ ok: false, error: "관리자 비밀번호가 올바르지 않습니다." }),
+        { status: 200, headers: corsHeaders },
       )
     }
 
@@ -100,6 +83,7 @@ serve(async (req) => {
       const { data: recentReview, error: recentError } = await supabase
         .from("reviews")
         .select("id")
+        .eq("game", cleanGame)
         .eq("ip_hash", ipHash)
         .gte("created_at", since.toISOString())
         .limit(1)
@@ -107,16 +91,9 @@ serve(async (req) => {
 
       if (recentError) {
         console.error(recentError)
-
         return new Response(
-          JSON.stringify({
-            ok: false,
-            error: "리뷰 제한 확인 중 문제가 발생했습니다.",
-          }),
-          {
-            status: 200,
-            headers: corsHeaders,
-          }
+          JSON.stringify({ ok: false, error: "리뷰 제한 확인 중 문제가 발생했습니다." }),
+          { status: 200, headers: corsHeaders },
         )
       }
 
@@ -125,13 +102,9 @@ serve(async (req) => {
           JSON.stringify({
             ok: false,
             blocked: true,
-            error:
-              "리뷰는 동일 IP 기준 3주에 한 번만 작성할 수 있습니다.",
+            error: "같은 게임의 리뷰는 동일 IP 기준 3주에 한 번만 작성할 수 있습니다.",
           }),
-          {
-            status: 200,
-            headers: corsHeaders,
-          }
+          { status: 200, headers: corsHeaders },
         )
       }
     }
@@ -142,6 +115,7 @@ serve(async (req) => {
         name: cleanName,
         rating: cleanRating,
         content: cleanContent,
+        game: cleanGame,
         ip_hash: ipHash,
         user_agent: userAgent,
       })
@@ -150,41 +124,21 @@ serve(async (req) => {
 
     if (insertError) {
       console.error(insertError)
-
       return new Response(
-        JSON.stringify({
-          ok: false,
-          error: "리뷰 등록에 실패했습니다.",
-        }),
-        {
-          status: 200,
-          headers: corsHeaders,
-        }
+        JSON.stringify({ ok: false, error: "리뷰 등록에 실패했습니다." }),
+        { status: 200, headers: corsHeaders },
       )
     }
 
-    return new Response(
-      JSON.stringify({
-        ok: true,
-        review,
-      }),
-      {
-        status: 200,
-        headers: corsHeaders,
-      }
-    )
+    return new Response(JSON.stringify({ ok: true, review }), {
+      status: 200,
+      headers: corsHeaders,
+    })
   } catch (err) {
     console.error(err)
-
     return new Response(
-      JSON.stringify({
-        ok: false,
-        error: "리뷰 등록 중 오류가 발생했습니다.",
-      }),
-      {
-        status: 200,
-        headers: corsHeaders,
-      }
+      JSON.stringify({ ok: false, error: "리뷰 등록 중 오류가 발생했습니다." }),
+      { status: 200, headers: corsHeaders },
     )
   }
 })

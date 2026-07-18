@@ -351,3 +351,14 @@
     font-size: 36px;
   }
 }
+.instructors-section--valorant {
+  background:
+    radial-gradient(circle at top left, rgba(255, 70, 85, 0.13), transparent 34%),
+    radial-gradient(circle at bottom right, rgba(168, 57, 104, 0.14), transparent 34%),
+    #09050a;
+}
+
+.instructors-section--valorant .instructors-section__eyebrow,
+.instructors-section--valorant .instructor-modal__content span {
+  color: #ff6673;
+}

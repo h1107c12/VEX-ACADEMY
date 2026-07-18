@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react"
 
 import { supabase } from "../../lib/supabase"
+import GameSwitch from "../common/GameSwitch"
+import { gameData } from "../../data/gameData"
+import type { GameType } from "../../data/gameData"
 
 type Star = {
   id: string
@@ -49,11 +52,14 @@ type HeroReview = {
 }
 
 type HeroSectionProps = {
+  game: GameType
+  onGameChange: (game: GameType) => void
   onOpenPeople?: () => void
   onOpenReviews?: () => void
 }
 
-function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
+function HeroSection({ game, onGameChange, onOpenPeople, onOpenReviews }: HeroSectionProps) {
+  const currentGame = gameData[game]
   const [heroInstructors, setHeroInstructors] = useState<HeroInstructor[]>([])
   const [heroReviews, setHeroReviews] = useState<HeroReview[]>([])
 
@@ -62,6 +68,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
       const { data, error } = await supabase
         .from("instructors")
         .select("id, image_url, created_at")
+        .eq("game", game)
         .order("created_at", { ascending: false })
         .limit(2)
 
@@ -77,6 +84,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
       const { data, error } = await supabase
         .from("reviews")
         .select("id, name, rating, content, created_at")
+        .eq("game", game)
         .order("created_at", { ascending: false })
         .limit(4)
 
@@ -90,7 +98,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
 
     fetchHeroInstructors()
     fetchHeroReviews()
-  }, [])
+  }, [game])
 
   const stars = useMemo<Star[]>(
     () =>
@@ -142,7 +150,8 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
   )
 
   return (
-    <section id="top" className="hero">
+    <section id="top" className={`hero hero--${game}`}>
+      <GameSwitch game={game} onChange={onGameChange} />
       <div className="hero__ambient hero__ambient--left" />
       <div className="hero__ambient hero__ambient--right" />
       <div className="hero__aura" />
@@ -291,7 +300,7 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
           <div className="hero__logo-wrap">
             <img
               className="hero__logo"
-              src="/logo-hero.png"
+              src={currentGame.heroLogo}
               alt="VEX Academy"
               width={430}
               height={430}
@@ -302,14 +311,14 @@ function HeroSection({ onOpenPeople, onOpenReviews }: HeroSectionProps) {
             <div className="hero__copy">
               <div className="hero__actions">
                 <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
+                  href={currentGame.applyUrl}
                   className="hero__button hero__button--primary"
                 >
                   신청하기
                 </a>
 
                 <a
-                  href="https://www.vexesports.kr/"
+                  href={currentGame.officialUrl}
                   className="hero__button hero__button--secondary"
                 >
                   공홈으로 이동

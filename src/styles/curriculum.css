@@ -196,3 +196,18 @@
     font-size: 2.3rem;
   }
 }
+
+.curriculum--valorant .curriculum__title {
+  background: linear-gradient(90deg, #ff6b76 0%, #d84f79 50%, #ae5cff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.curriculum--valorant .curriculum__step-label,
+.curriculum--valorant .curriculum__why-list li::before {
+  color: #ff6673;
+}
+
+.curriculum--valorant .curriculum__why-badge {
+  background: linear-gradient(90deg, #ff4655 0%, #a93e69 100%);
+}

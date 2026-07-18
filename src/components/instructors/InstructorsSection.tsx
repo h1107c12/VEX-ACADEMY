@@ -3,6 +3,7 @@ import type { DragEvent, FormEvent } from "react"
 
 import "./InstructorsSection.css"
 import { supabase } from "../../lib/supabase"
+import type { GameType } from "../../data/gameData"
 
 type Instructor = {
   id: string
@@ -14,7 +15,11 @@ type Instructor = {
   created_at?: string
 }
 
-export default function InstructorsSection() {
+type InstructorsSectionProps = {
+  game: GameType
+}
+
+export default function InstructorsSection({ game }: InstructorsSectionProps) {
   const [instructors, setInstructors] = useState<Instructor[]>([])
   const [selectedInstructor, setSelectedInstructor] = useState<Instructor | null>(null)
 
@@ -33,6 +38,7 @@ export default function InstructorsSection() {
     const { data, error } = await supabase
       .from("instructors")
       .select("*")
+      .eq("game", game)
       .order("created_at", { ascending: false })
 
     if (error) {
@@ -45,7 +51,7 @@ export default function InstructorsSection() {
 
   useEffect(() => {
     fetchInstructors()
-  }, [])
+  }, [game])
 
   useEffect(() => {
     const syncAdminMode = () => {
@@ -150,6 +156,7 @@ export default function InstructorsSection() {
         description: "",
         career: career.trim(),
         image_url: imageUrl,
+        game,
       },
     ])
 
@@ -190,7 +197,7 @@ export default function InstructorsSection() {
   }
 
   return (
-    <section id="instructors" className="instructors-section">
+    <section id="instructors" className={`instructors-section instructors-section--${game}`}>
       <div className="instructors-section__inner">
         <div className="instructors-section__header">
           <span className="instructors-section__eyebrow">
@@ -202,7 +209,7 @@ export default function InstructorsSection() {
           </h2>
 
           <p className="instructors-section__desc">
-            VEX E-SPORTS를 이끄는 감독과 코치진
+            {game === "pubg" ? "VEX PUBG를 이끄는 감독과 코치진" : "VEX VALORANT를 이끄는 감독과 코치진"}
           </p>
         </div>
 

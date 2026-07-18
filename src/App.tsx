@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import type { GameType } from "./data/gameData"
 import Header from "./components/layout/Header"
 import HeroSection from "./components/sections/HeroSection"
 import MOUSection from "./components/sections/MOUSection"
@@ -65,6 +66,7 @@ const waitForImages = async (selector: string, timeout = 1200) => {
 
 function App() {
   const [activeSection, setActiveSection] = useState<PageSection>(null)
+  const [selectedGame, setSelectedGame] = useState<GameType>("pubg")
   const [peopleScrollNonce, setPeopleScrollNonce] = useState(0)
 
   const pageRef = useRef<HTMLDivElement | null>(null)
@@ -164,10 +166,13 @@ function App() {
 
   return (
     <>
+      <div className={`app app--${selectedGame}`} data-game={selectedGame}>
       <Header onNavigate={handleNavigate} />
 
       <main>
         <HeroSection
+          game={selectedGame}
+          onGameChange={setSelectedGame}
           onOpenPeople={() => openPeopleAndScrollTo("instructors")}
           onOpenReviews={() => openPeopleAndScrollTo("reviews")}
         />
@@ -179,16 +184,16 @@ function App() {
             <div className="academy-page">
               <AboutSection />
               <div className="academy-divider" aria-hidden="true" />
-              <ProgramSection />
+              <ProgramSection game={selectedGame} />
               <div className="academy-divider" aria-hidden="true" />
-              <CurriculumSection />
+              <CurriculumSection game={selectedGame} />
             </div>
           )}
 
           {activeSection === "people" && (
             <>
-              <InstructorsSection />
-              <ReviewSection />
+              <InstructorsSection game={selectedGame} />
+              <ReviewSection game={selectedGame} />
             </>
           )}
 
@@ -197,6 +202,7 @@ function App() {
           {activeSection === "apply" && <CTASection />}
         </div>
       </main>
+      </div>
     </>
   )
 }

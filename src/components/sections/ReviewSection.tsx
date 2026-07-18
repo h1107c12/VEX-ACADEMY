@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { supabase } from "../../lib/supabase"
 import "../../styles/review.css"
+import type { GameType } from "../../data/gameData"
 
 const ADMIN_PASSWORD = "vex2026"
 
@@ -12,7 +13,11 @@ type Review = {
   created_at: string
 }
 
-function ReviewSection() {
+type ReviewSectionProps = {
+  game: GameType
+}
+
+function ReviewSection({ game }: ReviewSectionProps) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [name, setName] = useState("")
   const [rating, setRating] = useState(5)
@@ -35,6 +40,7 @@ function ReviewSection() {
     const { data, error } = await supabase
       .from("reviews")
       .select("*")
+      .eq("game", game)
       .order("created_at", { ascending: false })
 
     if (error) {
@@ -70,6 +76,7 @@ function ReviewSection() {
           name: name.trim(),
           rating,
           content: content.trim(),
+          game,
           adminPassword: adminMode ? ADMIN_PASSWORD : "",
         }),
       })
@@ -120,7 +127,7 @@ function ReviewSection() {
 
   useEffect(() => {
     getReviews()
-  }, [])
+  }, [game])
 
   useEffect(() => {
     const syncAdminMode = () => {
@@ -137,12 +144,12 @@ function ReviewSection() {
   }, [])
 
   return (
-    <section className="review-section" id="reviews">
+    <section className={`review-section review-section--${game}`} id="reviews">
       <div className="review-inner">
         <div className="review-title-box">
           <p className="review-label">STUDENT REVIEWS</p>
           <h2>수강생 리뷰</h2>
-          <p>VEX Academy 수강생들이 직접 남긴 후기입니다.</p>
+          <p>{game === "pubg" ? "VEX PUBG Academy 수강생들이 직접 남긴 후기입니다." : "VEX VALORANT Academy 수강생들이 직접 남긴 후기입니다."}</p>
         </div>
 
         <form className="review-form" onSubmit={submitReview}>
@@ -210,7 +217,7 @@ function ReviewSection() {
 
               <div className="review-user">
                 <span>{review.name}</span>
-                <small>VEX Academy Student</small>
+                <small>VEX {game === "pubg" ? "PUBG" : "VALORANT"} Student</small>
               </div>
 
               {adminMode && (

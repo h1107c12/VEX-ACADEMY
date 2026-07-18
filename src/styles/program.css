@@ -202,3 +202,18 @@
     font-size: 1.3rem;
   }
 }
+
+.program--valorant .program__title {
+  background: linear-gradient(90deg, #ff6b76 0%, #d84f79 55%, #ae5cff 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.program--valorant .program__badge {
+  background: linear-gradient(90deg, #ff4655 0%, #a93e69 100%);
+}
+
+.program--valorant .program__points li::before {
+  background: linear-gradient(180deg, #ff4655 0%, #b85cff 100%);
+  box-shadow: 0 0 12px rgba(255, 70, 85, 0.58);
+}
