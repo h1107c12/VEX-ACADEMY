@@ -6,11 +6,9 @@ import "./styles/global.css"
 import "./styles/header.css"
 import "./styles/hero.css"
 import "./styles/mou.css"
-import "./styles/program.css"
 import "./styles/curriculum.css"
 import "./styles/roster.css"
 import "./styles/about.css"
-import "./styles/cta.css"
 import "./styles/footer.css"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -1,43 +1,21 @@
-function CTASection() {
+import { ArrowUpRight } from "lucide-react"
+import { gameData } from "../../data/gameData"
+import type { GameType } from "../../data/gameData"
+import "../../styles/academy-actions.css"
+
+function CTASection({ game }: { game: GameType }) {
+  const data = gameData[game]
   return (
-    <section id="apply" className="cta section">
-      <div className="container cta__container">
-        <div className="cta__box">
-          <span className="cta__aura" />
-          <span className="cta__grid" />
-          <span className="cta__scanline" />
-
-          <span className="cta__corner cta__corner--lt" />
-          <span className="cta__corner cta__corner--rt" />
-          <span className="cta__corner cta__corner--lb" />
-          <span className="cta__corner cta__corner--rb" />
-
-          <span className="cta__orb cta__orb--left" />
-          <span className="cta__orb cta__orb--right" />
-
-          <div className="cta__content">
-            <p className="cta__eyebrow">BATTLEGROUNDS PRO TRAINING</p>
-
-            <h2 className="cta__title">
-              지금 바로
-              <br />
-              시작하세요
-            </h2>
-
-            <p className="cta__desc">
-              차세대 배틀그라운드 프로게이머로 성장할 기회
-            </p>
-
-            <a
-              href="https://docs.google.com/forms/d/e/1FAIpQLSe7gOVDaTMf9X34rVrTDK4hA67DRzK93QXgUEF-Hxx2cONqsg/viewform"
-              target="_blank"
-              rel="noreferrer"
-              className="cta__button"
-            >
-              수강신청하기
-            </a>
-          </div>
+    <section id="apply" className="enrollment" aria-labelledby="enrollment-title">
+      <div className="enrollment__panel">
+        <div>
+          <p className="enrollment__eyebrow">{data.shortLabel} · VEX ACADEMY</p>
+          <h2 id="enrollment-title">당신의 다음 플레이,<br />VEX와 함께 시작하세요.</h2>
+          <p className="enrollment__desc">프로게이머 과정부터 취미 · 실력향상 과정까지.<br />나의 목표에 맞는 교육을 신청하세요.</p>
         </div>
+        <a className="academy-action academy-action--primary" href={data.applyUrl} target="_blank" rel="noopener noreferrer" aria-label="수강 신청하기 — 신청서 새 창">
+          <span>신청하기</span><ArrowUpRight size={22} aria-hidden="true" />
+        </a>
       </div>
     </section>
   )

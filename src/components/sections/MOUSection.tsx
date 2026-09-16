@@ -1,3 +1,4 @@
+import AdmissionsLink from "../common/AdmissionsLink"
 import "./../../styles/mou.css"
 
 import honamLogo from "../../assets/universities/honam.png"
@@ -36,7 +37,7 @@ const universities = [
 
 function MOUSection() {
   return (
-    <section className="mou-section">
+    <section id="university-partners" className="mou-section" tabIndex={-1} aria-label="VEX MOU 대학교">
       <div className="mou-bg-glow" />
 
       <div className="mou-inner">
@@ -69,6 +70,7 @@ function MOUSection() {
             </article>
           ))}
         </div>
+        <div className="mou-apply"><AdmissionsLink /><p>진학 준비가 궁금하다면 카카오톡으로 문의하세요.</p></div>
       </div>
     </section>
   )

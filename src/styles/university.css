@@ -1,0 +1,34 @@
+.university { position: relative; padding: 100px 0; background: radial-gradient(ellipse at 90% 10%, #6555e51b, transparent 55%), linear-gradient(160deg, #0d192d, #090d18 80%); }
+.university__container { width: min(1200px, calc(100% - 48px)); margin: auto; }
+.university__eyebrow { display: inline-flex; align-items: center; gap: 10px; padding: 10px 16px; border: 1px solid #9bc7ff40; border-radius: 999px; background: #9bc7ff08; color: #a6d2ff; font-size: .85rem; font-weight: 700; }
+.university h2 { margin-top: 24px; font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -.04em; line-height: 1.3; }
+.university__lead { margin: 24px 0 20px; font-size: clamp(1.1rem, 2.6vw, 1.55rem); font-weight: 700; line-height: 1.6; word-break: keep-all; }
+.university__intro { max-width: 880px; display: grid; gap: 12px; color: #bccae0; line-height: 1.9; word-break: keep-all; overflow-wrap: anywhere; }
+.university__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 40px 0; }
+.university__card { padding: 26px 22px; border: 1px solid #84b5ff30; border-radius: 18px; background: linear-gradient(145deg, #ffffff06, #ffffff02); }
+.university__card-top { display: flex; align-items: center; justify-content: space-between; color: #9ccfff; }
+.university__card-top span { font-size: .8rem; color: #99aaca; letter-spacing: .12em; }
+.university__card h3 { margin: 24px 0 12px; font-size: 1.1rem; line-height: 1.5; }
+.university__card p { color: #bccae0; font-size: .95rem; line-height: 1.8; word-break: keep-all; }
+.university__footer { padding-top: 28px; border-top: 1px solid #ffffff20; }
+.university__footer p { max-width: 880px; color: #bccae0; line-height: 1.9; word-break: keep-all; }
+.university__footer strong { color: #edf3ff; }
+.university__actions { margin-top: 32px; display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.university__more-label { display: grid; gap: 5px; text-align: left; letter-spacing: .06em; font-size: .9rem; }
+.university__more-label small { letter-spacing: 0; font-size: .75rem; font-weight: 400; color: #bdcbe2; }
+.university__apply { display: grid; gap: 10px; }
+.university__apply > span { color: #a3b2ce; font-size: .75rem; padding-left: 4px; }
+.university__actions .academy-action { min-height: 72px; }
+.app--valorant .university { background: radial-gradient(ellipse at 90% 10%, #bd476b1b, transparent 55%), linear-gradient(160deg, #251621, #090d18 80%); }
+.app--valorant .university__eyebrow { color: #ffabb6; border-color: #ff8a9b40; background: #ff8a9b08; }
+.app--valorant .university__card-top { color: #ffabb6; }
+@media (max-width: 960px) { .university__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .university { padding: 72px 0; }
+  .university__container { width: calc(100% - 32px); }
+  .university__grid { grid-template-columns: 1fr; gap: 12px; margin: 32px 0; }
+  .university__card { padding: 24px; }
+  .university__card h3 { margin-top: 16px; }
+  .university__actions { flex-direction: column; }
+  .university__apply, .university__actions > .academy-action { width: 100%; }
+}

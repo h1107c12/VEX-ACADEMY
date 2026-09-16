@@ -7,8 +7,8 @@ function AboutSection() {
         <h2 className="section-title">About Academy</h2>
 
         <p className="section-desc about__desc">
-          Vex Academy는 차세대 PUBG 챔피언을 육성하는 데 전념하고 있습니다.
-          우리 프로그램은 젊은 인재들에게 전문적인 훈련, 경쟁 경험, 그리고 e스포츠 산업에서 성공으로 나아갈 수 있는 명확한 경로를 제공합니다.
+          VEX Academy는 배틀그라운드와 발로란트 교육을 통해 각자의 목표에 맞는 성장을 함께합니다.
+          게임을 즐기는 순간부터 프로 선수와 대학 진학을 준비하는 과정까지, 더 넓은 가능성을 만나보세요.
         </p>
 
         <div className="about__features">

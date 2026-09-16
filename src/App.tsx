@@ -3,8 +3,8 @@ import type { GameType } from "./data/gameData"
 import Header from "./components/layout/Header"
 import HeroSection from "./components/sections/HeroSection"
 import MOUSection from "./components/sections/MOUSection"
-import ProgramSection from "./components/sections/ProgramSection"
 import CurriculumSection from "./components/sections/CurriculumSection"
+import UniversitySection from "./components/sections/UniversitySection"
 import ReviewSection from "./components/sections/ReviewSection"
 import AboutSection from "./components/sections/AboutSection"
 import CTASection from "./components/sections/CTASection"
@@ -64,14 +64,6 @@ const waitForImages = async (selector: string, timeout = 1200) => {
   ])
 }
 
-function App() {
-  const [activeSection, setActiveSection] = useState<PageSection>(null)
-  const [selectedGame, setSelectedGame] = useState<GameType>("pubg")
-  const [peopleScrollNonce, setPeopleScrollNonce] = useState(0)
-
-  const pageRef = useRef<HTMLDivElement | null>(null)
-  const pendingPeopleTargetRef = useRef<PeopleTarget | null>(null)
-
   const getTargetTop = (targetId: string) => {
     const target = document.getElementById(targetId)
 
@@ -103,8 +95,19 @@ function App() {
     return true
   }
 
+function App() {
+  const [activeSection, setActiveSection] = useState<PageSection>(null)
+  const [selectedGame, setSelectedGame] = useState<GameType>("pubg")
+  const [partnersScrollNonce, setPartnersScrollNonce] = useState(0)
+  const pendingPartnersRef = useRef(false)
+  const [peopleScrollNonce, setPeopleScrollNonce] = useState(0)
+
+  const pageRef = useRef<HTMLDivElement | null>(null)
+  const pendingPeopleTargetRef = useRef<PeopleTarget | null>(null)
+
   const handleNavigate = async (sectionId: PageSection) => {
     pendingPeopleTargetRef.current = null
+    pendingPartnersRef.current = false
     setActiveSection(sectionId)
 
     await waitForFrames(2)
@@ -124,7 +127,33 @@ function App() {
     })
   }
 
+  const openPartners = () => {
+    pendingPeopleTargetRef.current = null
+    pendingPartnersRef.current = true
+    setActiveSection(null)
+    setPartnersScrollNonce((previous) => previous + 1)
+  }
+
+  useEffect(() => {
+    if (activeSection !== null || !pendingPartnersRef.current) return
+    let cancelled = false
+    const run = async () => {
+      await waitForFrames(2)
+      const target = document.getElementById("university-partners")
+      if (cancelled || !target || !pendingPartnersRef.current) return
+      pendingPartnersRef.current = false
+      target.focus({ preventScroll: true })
+      target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        block: "start",
+      })
+    }
+    void run()
+    return () => { cancelled = true }
+  }, [activeSection, partnersScrollNonce])
+
   const openPeopleAndScrollTo = (targetId: PeopleTarget) => {
+    pendingPartnersRef.current = false
     pendingPeopleTargetRef.current = targetId
     setActiveSection("people")
     setPeopleScrollNonce((prev) => prev + 1)
@@ -184,9 +213,10 @@ function App() {
             <div className="academy-page">
               <AboutSection />
               <div className="academy-divider" aria-hidden="true" />
-              <ProgramSection game={selectedGame} />
-              <div className="academy-divider" aria-hidden="true" />
               <CurriculumSection game={selectedGame} />
+              <div className="academy-divider" aria-hidden="true" />
+              <UniversitySection onViewPartners={openPartners} />
+              <CTASection game={selectedGame} />
             </div>
           )}
 
@@ -199,7 +229,7 @@ function App() {
 
           {activeSection === "hub" && <AcademySection />}
 
-          {activeSection === "apply" && <CTASection />}
+          {activeSection === "apply" && <CTASection game={selectedGame} />}
         </div>
       </main>
       </div>
